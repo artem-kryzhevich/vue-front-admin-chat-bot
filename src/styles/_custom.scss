@@ -1,0 +1,23 @@
+// Here you can add other styles
+.page-item:not(.disabled) .page-link {
+  cursor: pointer;
+}
+.pagination {
+  justify-content: flex-end;
+}
+th.col {
+  display: block;
+  position: relative;
+}
+
+th.sorted[data-order="-1"]::after {
+  content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+  content: "▲"
+}
+
+th.sorted[data-order="1"]::after, th.sorted[data-order="-1"]::after {
+  float: right;
+}
