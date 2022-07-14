@@ -10,49 +10,43 @@
       </CCol>
     </CRow>
   </CContainer>
-  <CTable bordered hover class="table_sort">
+  <CTable bordered hover>
     <CTableHead color="secondary">
       <CTableRow>
-        <CTableHeaderCell scope="col" data-order="1" class="sorted">#</CTableHeaderCell>
-        <CTableHeaderCell scope="col">id</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Имя в Telegram</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Фамилия в Telegram</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Telegram id</CTableHeaderCell>
-        <CTableHeaderCell scope="col">Role id</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="propertySorted='id'">id Пользователя</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="propertySorted='first_name'">Имя в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="propertySorted='second_name'">Фамилия в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="propertySorted='tg_id'">Telegram id</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="propertySorted='role_id'">Role id</CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
     <CTableBody color="light">
-      <CTableRow v-for="(user, index) in allUsers" :key="index">
-        <CTableHeaderCell scope="row">{{ index + 1 }}</CTableHeaderCell>
+      <CTableRow v-for="(user, index) in sortedUsers" :key="index">
         <CTableDataCell>{{ user.id }}</CTableDataCell>
         <CTableDataCell>{{ user.first_name }}</CTableDataCell>
         <CTableDataCell>{{ user.second_name }}</CTableDataCell>
         <CTableDataCell>{{ user.tg_id }}</CTableDataCell>
         <CTableDataCell>{{ user.role_id ? user.role_id : 'null' }}</CTableDataCell>
         <CTableDataCell style="justify-content: center; display: flex;">
-          <CButton color="warning" class="me-3">
-            <CIcon icon="cil-pencil"/>
-          </CButton>
-          <CButton color="danger" @click="method_deleteUser(user, currentPage)">
-            <CIcon icon="cil-trash"/>
-          </CButton>
+          <CButton color="warning" class="me-3"><CIcon icon="cil-pencil"/></CButton>
+          <CButton color="danger" @click="methodDeleteUser(user)"><CIcon icon="cil-trash"/></CButton>
         </CTableDataCell>
       </CTableRow>
     </CTableBody>
   </CTable>
   <paginate
-      :page-count="Math.ceil(usersCount/20)"
+      :page-count="totalPagesCount"
       :page-range="3"
       :margin-pages="2"
       :click-handler="clickCallback"
-      :prev-text="'Назад'"
-      :next-text="'Вперёд'"
       :container-class="'pagination'"
       :page-class="'page-item'"
+      :prev-text="'<'"
+      :next-text="'>'"
       :first-last-button="true"
-      :first-button-text="'Первая'"
-      :last-button-text="'Последняя'">
+      :first-button-text="'<<'"
+      :last-button-text="'>>'">
   </paginate>
 </template>
 
@@ -63,24 +57,34 @@ export default {
   name: "Users",
   data() {
     return {
-      currentPage: 0,
+      propertySorted: null
     }
   },
-  computed: mapGetters(['allUsers', 'usersCount']),
+  computed: {
+    ...mapGetters(['totalPagesCount']),
+    sortedUsers() {
+      let property = this.propertySorted
+      if ( property !== null ) {
+        return this.$store.getters.allUsers.sort(function compare(a, b) {
+          if (a[property] < b[property]) {
+            return -1;
+          }
+          if (a[property] > b[property]) {
+            return 1;
+          }
+          return 0;
+        })
+      } else
+        return this.$store.getters.allUsers
+    }
+  },
   methods: {
     ...mapActions(['getAllUsers', 'deleteUser']),
-    async clickCallback(pageNum) {
-      this.currentPage = pageNum
-      await this.getAllUsers(pageNum);
-
-      this.sorting_default()
+    async clickCallback(page) {
+      await this.getAllUsers(page);
     },
-    method_deleteUser(user, currentPage) {
-      let data = {
-        user: user,
-        page: currentPage
-      }
-      console.log(data)
+
+    methodDeleteUser(user) {
       Swal.fire({
         title: 'Вы уверены?',
         text: "Вы не сможете отменить это!",
@@ -88,53 +92,18 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Да, удалить пользователя '+ user.first_name,
+        confirmButtonText: 'Да, удалить пользователя ' + user.first_name,
         cancelButtonText: 'Отменить',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteUser(data)
+          this.deleteUser(user)
         }
       })
     },
-
-    method_sorting() {
-      const getSort = ({target}) => {
-        // if чтобы не сортировало по последнему столбцу в таблице
-        if ([...target.parentNode.cells].indexOf(target) !== document.querySelectorAll('.table_sort thead th').length - 1) {
-          const order = (target.dataset.order = -(target.dataset.order || -1));
-          const index = [...target.parentNode.cells].indexOf(target);
-          const collator = new Intl.Collator(['en', 'ru'], {numeric: true});
-          const comparator = (index, order) => (a, b) => order * collator.compare(
-              a.children[index].innerHTML,
-              b.children[index].innerHTML
-          );
-          for (const tBody of target.closest('table').tBodies)
-            tBody.append(...[...tBody.rows].sort(comparator(index, order)));
-          for (const cell of target.parentNode.cells)
-            cell.classList.toggle('sorted', cell === target);
-        }
-      };
-      document.querySelectorAll('.table_sort thead').forEach(tableTH => tableTH.addEventListener('click', () => getSort(event)));
-    },
-
-    sorting_default() {
-      let items = document.querySelectorAll('.table_sort thead th');
-      for (let i = 0; i < items.length; i++) {
-        if(items[i].classList.contains('sorted')) {
-          items[i].classList.remove('sorted')
-        }
-        items[i].removeAttribute('data-order')
-      }
-      items[0].classList.add('sorted')
-      items[0].setAttribute('data-order', '-1')
-      items[0].click()
-    }
   },
 
   async mounted() {
-    this.currentPage = 1
     await this.getAllUsers();
-    this.method_sorting()
   }
 }
 </script>

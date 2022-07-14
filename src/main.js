@@ -41,5 +41,4 @@ window.Toast = Swal.mixin({
     }
 })
 
-
 app.mount('#app')
