@@ -27,8 +27,8 @@ app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('paginate', Paginate)
 app.use(VueSweetalert2);
-window.Swal =  app.config.globalProperties.$swal;
 
+window.Swal =  app.config.globalProperties.$swal;
 window.Toast = Swal.mixin({
     toast: true,
     position: 'top-end',

@@ -13,49 +13,76 @@ export default {
     },
     actions: {
         async getAllUsers(ctx, page = ctx.state.current_page) {
-            console.log('check')
-            let users
-            if (process.env.APP_DEBUG) {
-               /* await axios.post('/users?page='+page+'&limit='+this.countUsers).then(function (response) {
-                    if(response.status === 200) {
-                        console.log(response.data);
-                        ctx.commit('updateUsers', response.data)
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });*/
-            } else {
-                users = MyCustomFaker.getUsers(page, ctx.state.count_users)
-            }
-            ctx.commit('updateUsers', users)
-        },
-
-        async deleteUser(ctx, user) {
-           /*await axios.post('/users?page='+ctx.state.current_page, {
-                id: user.id
-            }).then(function (response) {
-                if(response.status === 200) {
-                    this.dispatch('getAllUsers')
+            /*await axios.post('/users?page=' + page + '&limit=' + this.countUsers).then(response => {
+                if (response.status === 200) {
+                    console.log(response.data);
+                    ctx.commit('updateUsers', response.data)
                 }
-                console.log(response);
             }).catch(function (error) {
                 console.log(error);
             });*/
+            ctx.commit('updateUsers', MyCustomFaker.getUsers(page, ctx.state.count_users))
+        },
 
-            if(ctx.state.current_page === 1 || ctx.state.current_page === 2 || ctx.state.current_page === 3) {
+        async deleteUser(ctx, user) {
+            /*await axios.post('/delete-user, {id: user.id}).then(function (response) {
+                 if(response.status === 200) {
+                     this.dispatch('getAllUsers')
+                 }
+                 console.log(response);
+             }).catch(function (error) {
+                 console.log(error);
+             });*/
+
+            if (ctx.state.current_page === 1 || ctx.state.current_page === 2 || ctx.state.current_page === 3) {
                 ctx.commit('deleteUserMutation', user)
                 Toast.fire({
                     icon: 'success',
                     title: 'Пользователь удалён'
                 })
                 this.dispatch('getAllUsers')
-            }
-            else {
+            } else {
                 Toast.fire({
                     icon: 'error',
                     title: 'Ошибка удаления'
                 })
             }
+        },
+
+        async addUser(ctx, user) {
+            /*await axios.post('/add-user', user).then(function (response) {
+                 if(response.status === 200) {
+                     this.dispatch('getAllUsers')
+                 }
+                 console.log(response);
+             }).catch(function (error) {
+                 console.log(error);
+             });*/
+
+            console.log(user)
+            Toast.fire({
+                icon: 'success',
+                title: 'Пользователь добавлен'
+            })
+            this.dispatch('getAllUsers')
+        },
+
+        async editingUser(ctx, user) {
+            /*await axios.post('/update-user', user).then(function (response) {
+                 if(response.status === 200) {
+                     this.dispatch('getAllUsers')
+                 }
+                 console.log(response);
+             }).catch(function (error) {
+                 console.log(error);
+             });*/
+
+            console.log(user)
+            Toast.fire({
+                icon: 'success',
+                title: 'Пользователь изменён'
+            })
+            this.dispatch('getAllUsers')
         }
 
     },
