@@ -4,7 +4,7 @@
       <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center">Пользователи
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="success" @click="() => { modalUser = true; flagModal = true }" class="me-3">
+        <CButton color="success" @click="openAddModal" class="me-3">
           <CIcon icon="cil-plus"/>
         </CButton>
       </CCol>
@@ -13,12 +13,11 @@
   <CTable bordered hover>
     <CTableHead color="secondary">
       <CTableRow>
-        <CTableHeaderCell scope="col" @click="propertySorted='id';flagSorted=!flagSorted">id Пользователя</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="propertySorted='first_name';flagSorted=!flagSorted">Имя в Telegram</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="propertySorted='second_name';flagSorted=!flagSorted">Фамилия в Telegram
-        </CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="propertySorted='tg_id';flagSorted=!flagSorted">Telegram id</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="propertySorted='role_id';flagSorted=!flagSorted">Role id</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="passingASortingParameter('id')">id Пользователя</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="passingASortingParameter('first_name')">Имя в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="passingASortingParameter('second_name')">Фамилия в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="passingASortingParameter('tg_id')">Telegram id</CTableHeaderCell>
+        <CTableHeaderCell scope="col" @click="passingASortingParameter('role_id')">Role id</CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
@@ -30,7 +29,7 @@
         <CTableDataCell>{{ user.tg_id }}</CTableDataCell>
         <CTableDataCell>{{ user.role_id ? user.role_id : 'null' }}</CTableDataCell>
         <CTableDataCell style="justify-content: center; display: flex;">
-          <CButton color="warning" class="me-3" @click="modalUser = true; flagModal = false; temp_user = user; validateAddOrClear(true)">
+          <CButton color="warning" class="me-3" @click="openEditModal(user)">
             <CIcon icon="cil-pencil"/>
           </CButton>
           <CButton color="danger" @click="methodDeleteUser(user)">
@@ -54,62 +53,67 @@
       :last-button-text="'>>'">
   </paginate>
 
-  <CModal alignment="center" scrollable
-          :visible="modalUser"
-          @close="() => { modalUser = false; tempUserClear(); validateAddOrClear(false) }">
-    <CForm class="row g-3 needs-validation" >
+  <CModal alignment="center" scrollable :visible="modalUser" @close="closeModal">
+    <CForm class="row g-3 needs-validation">
       <CModalHeader>
-        <CModalTitle>{{ flagModal ? 'Добавление пользователя' : 'Редактирование пользователя' }}</CModalTitle>
+        <CModalTitle>{{ modalTitle }}</CModalTitle>
       </CModalHeader>
       <CModalBody>
         <CCol xs="12">
           <CFormLabel for="first_name">Имя</CFormLabel>
           <CInputGroup class="has-validation">
             <CFormInput id="first_name" value="" aria-describedby="inputGroupPrepend" required
-                        v-model="temp_user.first_name" placeholder="Иван"
-                        feedbackInvalid="Поле не может быть пустым"
-                        v-on:input="validate.first_name=true"
-                        :valid="(temp_user.first_name!==''&&temp_user.first_name!==null)&&validate.first_name===true"
-                        :invalid="(temp_user.first_name===''||temp_user.first_name===null)&&validate.first_name===true"/>
+                        v-model="state.first_name" placeholder="Иван"
+                        :feedbackInvalid="feedbackInvalidInput(Object.keys(state)[0])"
+                        @input="validateInput(Object.keys(state)[0])"
+                        :valid="validOrInvalidInput(Object.keys(state)[0], true)"
+                        :invalid="validOrInvalidInput(Object.keys(state)[0], false)"/>
           </CInputGroup>
         </CCol>
         <CCol xs="12">
           <CFormLabel for="second_name">Фамилия</CFormLabel>
-          <CFormInput id="second_name" placeholder="Иванов" v-model="temp_user.second_name" required
-                      feedbackInvalid="Поле не может быть пустым"
-                      v-on:input="validate.second_name=true"
-                      :valid="(temp_user.second_name!==''&&temp_user.second_name!==null)&&validate.second_name===true"
-                      :invalid="(temp_user.second_name===''||temp_user.second_name===null)&&validate.second_name===true"/>
+          <CInputGroup class="has-validation">
+            <CFormInput id="second_name" aria-describedby="inputGroupPrepend" required
+                        v-model="state.second_name" placeholder="Иван"
+                        :feedbackInvalid="feedbackInvalidInput(Object.keys(state)[1])"
+                        @input="validateInput(Object.keys(state)[1])"
+                        :valid="validOrInvalidInput(Object.keys(state)[1], true)"
+                        :invalid="validOrInvalidInput(Object.keys(state)[1], false)"/>
+          </CInputGroup>
         </CCol>
         <CCol xs="12">
           <CFormLabel for="tg_id">TG id</CFormLabel>
-          <CFormInput id="tg_id" placeholder="123456789" v-model="temp_user.tg_id" required
-                      :feedbackInvalid="temp_user.tg_id==='' || temp_user.tg_id===null
-                      ? 'Поле не может быть пустым'
-                      : 'Поле может содержать только цифры'"
-                      v-on:input="validate.tg_id=true"
-                      :valid="/^[1-9]\d*$/.test(temp_user.tg_id)===true&&validate.tg_id===true"
-                      :invalid="/^[1-9]\d*$/.test(temp_user.tg_id)===false&&validate.tg_id===true"/>
+          <CInputGroup class="has-validation">
+            <CFormInput id="telegram_id" aria-describedby="inputGroupPrepend" required
+                        v-model="state.tg_id" placeholder="123456789"
+                        :feedbackInvalid="feedbackInvalidInput(Object.keys(state)[2])"
+                        @input="validateInput(Object.keys(state)[2])"
+                        :valid="validOrInvalidInput(Object.keys(state)[2], true)"
+                        :invalid="validOrInvalidInput(Object.keys(state)[2], false)"/>
+          </CInputGroup>
         </CCol>
         <CCol xs="12">
           <CFormLabel for="role_id">Роль</CFormLabel>
-          <CFormSelect id="role_id" v-model="temp_user.role_id"
-                       feedbackInvalid="Поле не может быть пустым" required
-                       v-on:input="validate.role_id=true"
-                       :valid="(temp_user.role_id!==''&&temp_user.role_id!==null)&&validate.role_id===true"
-                       :invalid="(temp_user.role_id===''||temp_user.role_id===null)&&validate.role_id===true">
-            <option selected="" value="">Выберите роль...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </CFormSelect>
+          <CInputGroup class="has-validation">
+            <CFormSelect id="role_id" aria-describedby="inputGroupPrepend" required
+                         v-model="state.role_id"
+                         :feedbackInvalid="feedbackInvalidInput(Object.keys(state)[3])"
+                         @input="validateInput(Object.keys(state)[3])"
+                         :valid="validOrInvalidInput(Object.keys(state)[3], true)"
+                         :invalid="validOrInvalidInput(Object.keys(state)[3], false)">
+              <option selected="" value="">Выберите роль...</option>
+              <option :value="null">null</option>
+              <option value="1">Первая</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+              <option :value="state.role_id">{{ state.role_id }}</option>
+            </CFormSelect>
+          </CInputGroup>
         </CCol>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" @click="() => { modalUser = false; tempUserClear(); validateAddOrClear(false) }">
-          Закрыть
-        </CButton>
-        <CButton color="primary" type="button" @click="() => { checkValidateModal(temp_user)}">Добавить</CButton>
+        <CButton color="secondary" @click="closeModal">Закрыть</CButton>
+        <CButton color="primary" type="button" @click="checkValidateModal(state)">{{modalButton}}</CButton>
       </CModalFooter>
     </CForm>
   </CModal>
@@ -117,46 +121,30 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import vuelidateUser, {state, v$} from "@/mixins/vuelidateUser";
+import sortered from "@/mixins/sortered";
 
 export default {
   name: "Users",
+  mixins: [vuelidateUser, sortered],
+  setup() {
+    return {state, v$}
+  },
   data() {
     return {
       flagModal: null,
       modalUser: false,
       flagSorted: true,
-      propertySorted: null,
-      temp_user: { first_name: null, second_name: null, tg_id: null, role_id: null },
-      validate: { first_name: false, second_name: false, tg_id: false, role_id: false }
+      propertySorted: null
     }
   },
   computed: {
     ...mapGetters(['totalPagesCount']),
-    sortedUsers() {
-      let property = this.propertySorted
-      let flagSorted = this.flagSorted
-      if (property !== null) {
-        return this.$store.getters.allUsers.sort((a, b) => {
-          if (flagSorted === true) {
-            if (a[property] < b[property]) {
-              return -1;
-            }
-            if (a[property] > b[property]) {
-              return 1;
-            }
-            return 0;
-          } else {
-            if (a[property] > b[property]) {
-              return -1;
-            }
-            if (a[property] < b[property]) {
-              return 1;
-            }
-            return 0;
-          }
-        })
-      } else
-        return this.$store.getters.allUsers
+    modalTitle() {
+      return this.flagModal ? 'Добавление пользователя' : 'Редактирование пользователя'
+    },
+    modalButton() {
+      return this.flagModal ? 'Добавить' : 'Изменить'
     }
   },
   methods: {
@@ -164,7 +152,6 @@ export default {
     async clickCallback(page) {
       await this.getAllUsers(page);
     },
-
     methodDeleteUser(user) {
       Swal.fire({
         title: 'Вы уверены?',
@@ -183,45 +170,59 @@ export default {
     },
 
     checkValidateModal(user) {
-      if ( user.first_name!=='' && user.first_name!==null
-          && user.second_name!=='' && user.second_name!==null
-          && user.tg_id!=='' && user.tg_id!==null
-          && user.role_id!=='' && user.role_id!==null
-          && /^[1-9]\d*$/.test(user.tg_id)) {
-        /*if (!this.flagModal) {
+      this.v$.$validate()
+      if (!this.v$.$error) {
+        if (!this.flagModal) {
           user.id = Number(user.id)
-        }*/
+        }
         user.first_name = String(user.first_name)
         user.second_name = String(user.second_name)
         user.tg_id = Number(user.tg_id)
         user.role_id = Number(user.role_id)
-
         if (this.flagModal) {
           this.addUser(user)
         } else {
           this.editingUser(user)
         }
+        this.modalUser = false;
+        this.flagModal = null;
+        this.v$.$reset()
+        this.clearUser()
+      }
+    },
+    clearUser() {
+      Object.keys(state).forEach(v => state[v] = '')
+      if (!this.flagModal)
+        delete state['id'];
+    },
+    closeModal() {
+      this.modalUser = false;
+      this.v$.$reset()
+      this.clearUser()
+    },
+    openAddModal() {
+      this.modalUser = true;
+      this.flagModal = true;
+    },
+    openEditModal(user) {
+      this.state.first_name = user.first_name
+      this.state.second_name = user.second_name
+      this.state.tg_id = String(user.tg_id)
+      this.state.role_id = String(user.role_id)
+      this.state.id = user.id
 
-        if (!this.flagModal) { delete this.temp_user['id']  }
-        this.modalUser = false; this.flagModal=null;
-        this.validateAddOrClear(false)
-        this.tempUserClear();
-      } else
-        this.validateAddOrClear(true)
+      this.modalUser = true;
+      this.flagModal = false;
+
+      console.log(user)
     },
-    tempUserClear() {
-      for (let key in this.temp_user) {this.temp_user[key]=null}
-    },
-    validateAddOrClear(check) {
-      if(check)
-        for (let key in this.validate) {this.validate[key]=true}
-      else
-        for (let key in this.validate) {this.validate[key]=false}
+    passingASortingParameter(param) {
+      this.propertySorted = param;
+      this.flagSorted = !flagSorted
     }
   },
   async mounted() {
     await this.getAllUsers();
-    this.tempUserClear()
   }
 }
 </script>
