@@ -10,14 +10,14 @@ th.col {
   position: relative;
 }
 
-th.sorted[data-order="-1"]::after {
+th.sorted[data-sorting-direction="-1"]::after {
   content: "▼"
 }
 
-th.sorted[data-order="1"]::after {
+th.sorted[data-sorting-direction="1"]::after {
   content: "▲"
 }
 
-th.sorted[data-order="1"]::after, th.sorted[data-order="-1"]::after {
+th.sorted[data-sorting-direction="1"]::after, th.sorted[data-sorting-direction="-1"]::after {
   float: right;
 }

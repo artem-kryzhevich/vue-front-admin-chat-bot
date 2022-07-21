@@ -21,7 +21,7 @@ export default {
     actions: {
         async getAllUsers(ctx, page = ctx.state.current_page) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.get(process.env.VUE_APP_BASE_URL + '/users?page=' + page + '&limit=' + ctx.state.count_users,
+                await this.axios.get(process.env.VUE_APP_BACKEND_URL + '/users?page=' + page + '&limit=' + ctx.state.count_users,
                     {headers: header}).then(response => {
                     if (response.status === 200) {
                         console.log(response.data);
@@ -41,7 +41,7 @@ export default {
                     "tg_id": user.tg_id,
                     "role_id": user.role_id
                 }
-                await this.axios.put(process.env.VUE_APP_BASE_URL + '/users', data, {headers: header}).then(function (response) {
+                await this.axios.put(process.env.VUE_APP_BACKEND_URL + '/users', data, {headers: header}).then(function (response) {
                     if (response.status === 200) {
                         ctx.dispatch('getAllUsers')
                         ctx.commit('modalRequestUser', {data: 'success', text: 'Пользователь добавлен'})
@@ -63,7 +63,7 @@ export default {
                     "tg_id": user.tg_id,
                     "role_id": user.role_id
                 }
-                await this.axios.post(process.env.VUE_APP_BASE_URL + '/users/' + user.id, data, {headers: header})
+                await this.axios.post(process.env.VUE_APP_BACKEND_URL + '/users/' + user.id, data, {headers: header})
                     .then(function (response) {
                         if (response.status === 200) {
                             ctx.dispatch('getAllUsers')
@@ -80,7 +80,7 @@ export default {
         },
         async deleteUser(ctx, user) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.delete(process.env.VUE_APP_BASE_URL + '/users/' + user.id, {headers: header})
+                await this.axios.delete(process.env.VUE_APP_BACKEND_URL + '/users/' + user.id, {headers: header})
                     .then(function (response) {
                         if (response.status === 200) {
                             ctx.dispatch('getAllUsers')

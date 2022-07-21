@@ -13,11 +13,26 @@
   <CTable bordered hover>
     <CTableHead color="secondary">
       <CTableRow>
-        <CTableHeaderCell scope="col" @click="passingASortingParameter('id')">id Пользователя</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="passingASortingParameter('first_name')">Имя в Telegram</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="passingASortingParameter('second_name')">Фамилия в Telegram</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="passingASortingParameter('tg_id')">Telegram id</CTableHeaderCell>
-        <CTableHeaderCell scope="col" @click="passingASortingParameter('role_id')">Role id</CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="propertySorted === 'id' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="flagSorted ? 1 : -1"
+                          @click="passingASortingParameter('id')">id Пользователя</CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="propertySorted === 'first_name' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="flagSorted ? 1 : -1"
+                          @click="passingASortingParameter('first_name')">Имя в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="propertySorted === 'second_name' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="flagSorted ? 1 : -1"
+                          @click="passingASortingParameter('second_name')">Фамилия в Telegram</CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="propertySorted === 'tg_id' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="flagSorted ? 1 : -1"
+                          @click="passingASortingParameter('tg_id')">Telegram id</CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="propertySorted === 'role_id' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="flagSorted ? 1 : -1"
+                          @click="passingASortingParameter('role_id')">Role id</CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
@@ -122,11 +137,11 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import vuelidateUser, {state, v$} from "@/mixins/vuelidateUser";
-import sortered from "@/mixins/sortered";
+import sorted from "@/mixins/sorted";
 
 export default {
   name: "Users",
-  mixins: [vuelidateUser, sortered],
+  mixins: [vuelidateUser, sorted],
   setup() {
     return {state, v$}
   },
@@ -135,7 +150,7 @@ export default {
       flagModal: null,
       modalUser: false,
       flagSorted: true,
-      propertySorted: null
+      propertySorted: 'id'
     }
   },
   computed: {
@@ -160,7 +175,7 @@ export default {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Да, удалить пользователя ' + user.first_name,
+        confirmButtonText: 'Да, удалить пользователя ' + user.tg_id,
         cancelButtonText: 'Отменить',
       }).then((result) => {
         if (result.isConfirmed) {
@@ -210,15 +225,13 @@ export default {
       this.state.tg_id = String(user.tg_id)
       this.state.role_id = String(user.role_id)
       this.state.id = user.id
-
       this.modalUser = true;
       this.flagModal = false;
-
-      console.log(user)
+      //console.log(user)
     },
     passingASortingParameter(param) {
       this.propertySorted = param;
-      this.flagSorted = !flagSorted
+      this.flagSorted = !this.flagSorted
     }
   },
   async mounted() {
