@@ -1,4 +1,5 @@
-import {header} from "@/store/modules/headerTest";
+import api from "@/services/api";
+import EventBus from "@/common/EventBus";
 
 export default {
     state: {
@@ -15,13 +16,15 @@ export default {
     actions: {
         async getAllData(ctx) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.get(ctx.state.url + '?page=' + ctx.state.current_page + '&limit=' + ctx.state.count_row,
-                    {headers: header}).then(response => {
+                await api.get(ctx.state.url + '?page=' + ctx.state.current_page + '&limit=' + ctx.state.count_row).then(response => {
                     if (response.status === 200) {
                         console.log(response.data);
                         ctx.commit('updateData', response.data)
                     }
                 }).catch(function (error) {
+                    if (error.response && error.response.status === 403) {
+                        EventBus.dispatch("logout");
+                    }
                     console.log(error);
                 });
             } else
@@ -29,7 +32,7 @@ export default {
         },
         async addData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.put(ctx.state.url + '/create', data, {headers: header}).then(function (response) {
+                await api.put(ctx.state.url + '/create', data).then(function (response) {
                     if (response.status === 200) {
                         ctx.dispatch('getAllData')
                         ctx.commit('updateModalRequest', {data: 'success', text: 'Успешное добавление!'})
@@ -37,6 +40,9 @@ export default {
                     console.log(response);
                 }).catch(function (error) {
                     ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка добавления!'})
+                    if (error.response && error.response.status === 403) {
+                        EventBus.dispatch("logout");
+                    }
                     console.log(error);
                 });
             } else
@@ -44,7 +50,7 @@ export default {
         },
         async editingData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.post(ctx.state.url + '/' + data.id, data, {headers: header})
+                await api.post(ctx.state.url + '/' + data.id, data)
                     .then(function (response) {
                         if (response.status === 200) {
                             ctx.dispatch('getAllData')
@@ -53,6 +59,9 @@ export default {
                         console.log(response);
                     }).catch(function (error) {
                         ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка изменения!'})
+                        if (error.response && error.response.status === 403) {
+                            EventBus.dispatch("logout");
+                        }
                         console.log(error);
                     });
             }
@@ -61,7 +70,7 @@ export default {
         },
         async deleteData(ctx, id) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await this.axios.delete(ctx.state.url + '/' + id, {headers: header})
+                await api.delete(ctx.state.url + '/' + id)
                     .then(function (response) {
                         if (response.status === 200) {
                             ctx.dispatch('getAllData')
@@ -70,6 +79,9 @@ export default {
                         console.log(response);
                     }).catch(function (error) {
                         ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка удаления!'})
+                        if (error.response && error.response.status === 403) {
+                            EventBus.dispatch("logout");
+                        }
                         console.log(error);
                     });
             }

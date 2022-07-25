@@ -1,4 +1,3 @@
-import { h, resolveComponent } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
@@ -8,14 +7,8 @@ const routes = [
     path: '/',
     name: 'Главная',
     component: DefaultLayout,
-    //redirect: '/home',
+    redirect: '/users',
     children: [
-      /*{
-        path: '/home',
-        name: 'Home',
-        component: () =>
-            import('@/views/'),
-      },*/
       {
         path: '/users',
         name: 'Пользователи',
@@ -73,32 +66,34 @@ const routes = [
     ],
   },
   {
-    path: '/pages',
-    redirect: '/pages/404',
-    name: 'Pages',
-    component: {
-      render() {
-        return h(resolveComponent('router-view'))
-      },
-    },
-    children: [
-      {
-        path: '/login',
-        name: 'Авторизация',
-        component: () =>
-            import('@/views/Login.vue'),
-      },
-    ],
+    path: "/login",
+    name: 'Авторизация',
+    component: () =>
+        import('@/views/Login.vue'),
   },
-
+  {
+    path: "/:catchAll(.*)",
+    redirect: '/'
+  }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.VUE_APP_PREFIX_BASE_URL),
+  history: createWebHistory(),
   routes,
   scrollBehavior() {
     return { top: 0 }
   },
 })
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next();
+  }
+});
 
 export default router

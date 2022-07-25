@@ -48,7 +48,7 @@
         <CTableDataCell class="text-one-line">{{ data.first_name }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.second_name }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.tg_id }}</CTableDataCell>
-        <CTableDataCell class="text-one-line">{{ $store.getters.getRoles[data.role_id] ? $store.getters.getRoles[data.role_id] : 'null' }}
+        <CTableDataCell class="text-one-line">{{ $store.getters.getRoles[data.role_id] ? $store.getters.getRoles[data.role_id] : 'Обычный пользователь' }}
         </CTableDataCell>
         <CTableDataCell class="align-text-center">
           <CDropdown color="secondary" :alignment="'end'">
@@ -146,7 +146,7 @@
                          :valid="validOrInvalidInput('role_id', true)"
                          :invalid="validOrInvalidInput('role_id', false)">
               <option selected="" value="">Выберите роль...</option>
-              <option :value="null">null</option>
+              <option :value="null">Обычный пользователь</option>
               <option v-for="([id, title], index) in Object.entries($store.getters.getRoles)"
                       :value="id" :key="index">{{ title }}
               </option>

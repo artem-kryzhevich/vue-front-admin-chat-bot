@@ -17,6 +17,7 @@ import { CContainer } from '@coreui/vue'
 import AppFooter from '@/components/AppFooter.vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
+import EventBus from "@/common/EventBus";
 
 export default {
   name: 'DefaultLayout',
@@ -26,5 +27,24 @@ export default {
     AppSidebar,
     CContainer,
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    }
+  },
+  mounted() {
+    EventBus.on("logout", () => {
+      this.logOut();
+    });
+  },
+  beforeDestroy() {
+    EventBus.remove("logout");
+  }
 }
 </script>

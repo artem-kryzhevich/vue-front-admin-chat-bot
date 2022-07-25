@@ -28,7 +28,7 @@
             <CIcon class="mx-2" icon="cil-envelope-open" size="lg" />
           </CNavLink>
         </CNavItem> -->
-        <CNavLink href="#">
+        <CNavLink href="#" @click="logOut">
           <CIcon icon="cil-lock-locked" /> Выйти
         </CNavLink>
       <!--  <AppHeaderDropdownAccnt /> -->
@@ -56,5 +56,12 @@ export default {
       logo,
     }
   },
+  methods: {
+    logOut() {
+      this.$store.dispatch('auth/logout');
+      this.$router.push('/login');
+    }
+  }
+
 }
 </script>
