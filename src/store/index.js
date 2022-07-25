@@ -1,7 +1,12 @@
 import { createStore } from 'vuex'
-import users from "@/store/modules/users";
+import main from "@/store/modules/main";
+import roles from "@/store/modules/roles";
 
 export default createStore({
+  state: {
+    sidebarVisible: '',
+    sidebarUnfoldable: false
+  },
   mutations: {
     toggleSidebar(state) {
       state.sidebarVisible = !state.sidebarVisible
@@ -14,6 +19,7 @@ export default createStore({
     }
   },
   modules: {
-    users
+    main,
+    roles,
   },
 })

@@ -1,5 +1,4 @@
 import {computed, reactive} from 'vue'
-import useVuelidate from '@vuelidate/core'
 import {helpers, required} from '@vuelidate/validators'
 
 const customMessages = reactive({
@@ -9,21 +8,17 @@ const customMessages = reactive({
     role_id: 'Выберите роль из списка'
 })
 export const state = reactive({
-    first_name: '',
-    second_name: '',
-    tg_id: '',
-    role_id: ''
+    first_name: null,
+    second_name: null,
+    tg_id: null,
+    role_id: null
 })
 let telegram_id = helpers.regex(/^[1-9]\d*$/)
 let role_id = helpers.regex(/^(null|\d*)$/)
 export const rules = computed(() => {
     return {
-        first_name: {
-            required: helpers.withMessage(customMessages.required, required)
-        },
-        second_name: {
-            required: helpers.withMessage(customMessages.required, required)
-        },
+        first_name: {},
+        second_name: {},
         tg_id: {
             required: helpers.withMessage(customMessages.required, required),
             telegram_id: helpers.withMessage(customMessages.telegram_id, telegram_id)
@@ -34,22 +29,3 @@ export const rules = computed(() => {
         }
     }
 })
-
-export const v$ = useVuelidate(rules, state)
-
-export default {
-    methods: {
-        validOrInvalidInput(name, select) {
-            if (select)
-                return !!(!this.v$[name].$invalid && this.v$[name].$dirty)
-            else
-                return !!(this.v$[name].$invalid && this.v$[name].$dirty)
-        },
-        feedbackInvalidInput(name) {
-            return this.v$[name].$error ? this.v$[name].$errors[0].$message : null
-        },
-        validateInput(name) {
-            this.v$[name].$touch()
-        }
-    }
-}

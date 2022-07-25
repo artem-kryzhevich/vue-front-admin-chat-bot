@@ -1,10 +1,10 @@
 export default {
     computed: {
-        sortedUsers() {
+        sortedData() {
             let property = this.propertySorted
             let flagSorted = this.flagSorted
             if (property !== null) {
-                return this.$store.getters.allUsers.sort((a, b) => {
+                return this.$store.getters.getData.sort((a, b) => {
                     if (flagSorted === true) {
                         if (a[property] < b[property]) {
                             return -1;
@@ -24,7 +24,7 @@ export default {
                     }
                 })
             } else
-                return this.$store.getters.allUsers
+                return this.$store.getters.getData
         }
     }
 }

@@ -16,6 +16,9 @@ import Paginate from "vuejs-paginate-next";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import moment from 'moment';
+moment.locale('ru');
+
 store.axios = axios;
 
 const app = createApp(App)
@@ -23,6 +26,7 @@ app.use(store)
 app.use(router)
 app.use(CoreuiVue)
 app.use(VueAxios, axios)
+app.config.globalProperties.$moment = moment;
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('paginate', Paginate)

@@ -1,66 +1,72 @@
 import { h, resolveComponent } from 'vue'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 import DefaultLayout from '@/layouts/DefaultLayout'
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Главная',
     component: DefaultLayout,
-    redirect: '/users',
+    //redirect: '/home',
     children: [
+      /*{
+        path: '/home',
+        name: 'Home',
+        component: () =>
+            import('@/views/'),
+      },*/
       {
         path: '/users',
-        name: 'Users',
+        name: 'Пользователи',
         component: () =>
           import('@/views/Users.vue'),
       },
       {
         path: '/channels',
-        name: 'Channels',
+        name: 'Каналы',
         component: () =>
             import('@/views/Channels.vue'),
       },
       {
         path: '/roles',
-        name: 'Roles',
+        name: 'Роли',
         component: () =>
             import('@/views/Roles.vue'),
       },
       {
         path: '/items',
-        name: 'Items',
+        name: 'Товары',
         component: () =>
             import('@/views/Items.vue'),
       },
       {
         path: '/schedulers',
-        name: 'Schedulers',
+        name: 'Расписание',
         component: () =>
             import('@/views/Schedulers.vue'),
       },
       {
         path: '/notifications',
-        name: 'Notifications',
+        name: 'Оповещения',
         component: () =>
             import('@/views/Notifications.vue'),
       },
       {
         path: '/content',
-        name: 'Content',
+        name: 'Контент',
         component: () =>
             import('@/views/Content.vue'),
       },
       {
-        path: '/payment-history',
-        name: 'PaymentHistory',
+        path: '/payments-history',
+        name: 'История оплат',
         component: () =>
-            import('@/views/PaymentHistory.vue'),
+            import('@/views/PaymentsHistory.vue'),
       },
       {
         path: '/categories',
-        name: 'Categories',
+        name: 'Категории',
         component: () =>
             import('@/views/Categories.vue'),
       },
@@ -78,7 +84,7 @@ const routes = [
     children: [
       {
         path: '/login',
-        name: 'Login',
+        name: 'Авторизация',
         component: () =>
             import('@/views/Login.vue'),
       },
@@ -88,7 +94,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.VUE_APP_BASE_URL),
+  history: createWebHistory(process.env.VUE_APP_PREFIX_BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 }

@@ -44,7 +44,7 @@ export default [
   {
     component: 'CNavItem',
     name: 'История оплат',
-    to: '/payment-history',
+    to: '/payments-history',
     icon: 'cilTransfer',
   },
   {
