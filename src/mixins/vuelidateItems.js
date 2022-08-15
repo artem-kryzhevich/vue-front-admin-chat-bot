@@ -29,9 +29,11 @@ export const rules = computed(() => {
             integer: helpers.withMessage(customMessages.integer, integer),
         },
         description: {
+            required: helpers.withMessage(customMessages.required, required),
             maxLength: helpers.withMessage(({ $params }) => `Поле не может быть больше ${$params.max} символов`, maxLength(1024))
         },
         duration: {
+            required: helpers.withMessage(customMessages.required, required),
             integer: helpers.withMessage(customMessages.integer, integer)
         },
         can_buy_muliple_times: {

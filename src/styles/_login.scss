@@ -1,0 +1,35 @@
+.bg_login {
+  background: #50c859;
+  background: -webkit-linear-gradient(-135deg, #50c859, #4158d0);
+  background: -o-linear-gradient(-135deg, #50c859, #4158d0);
+  background: -moz-linear-gradient(-135deg, #50c859, #4158d0);
+  background: linear-gradient(-135deg, #50c859, #4158d0);
+}
+.wrap_login {
+  width: 70%;
+  border-radius: 25px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 5%;
+  margin: 0 5%;
+  background: rgba(80, 200, 89, 0.15);
+  background: linear-gradient(-135deg, rgba(80, 200, 89, 0.15), rgba(65, 88, 208, 0.15));
+  box-shadow: 0 0 25px;
+}
+
+.span_title_login {
+  font-family: Poppins-Regular, sans-serif;
+  font-size: 24px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+  width: 100%;
+  display: block;
+  padding-bottom: 10%;
+}

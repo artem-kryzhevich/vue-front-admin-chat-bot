@@ -1,23 +1,23 @@
 <template>
-  <CDropdown variant="nav-item">
+  <!--<CDropdown variant="nav-item">
     <CDropdownToggle placement="bottom-end" class="py-0" :caret="false">
       <CAvatar :src="avatar" size="md" />
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
       <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
     </CDropdownMenu>
-  </CDropdown>
+  </CDropdown>-->
 </template>
 
 <script>
-import avatar from '@/assets/images/avatars/2.jpg'
+//import avatar from '@/assets/images/avatars/2.jpg'
 export default {
   name: 'AppHeaderDropdownAccnt',
-  setup() {
+  /*setup() {
     return {
       avatar: avatar,
       itemsCount: 42,
     }
-  },
+  },*/
 }
 </script>

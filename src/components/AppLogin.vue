@@ -1,4 +1,5 @@
 <template>
+  <div class="d-flex w-50 justify-content-center m-auto">
   <!-- Callback mode -->
   <span v-if="!isLoaded">Загрузка...</span>
   <telegram-login-temp
@@ -7,14 +8,7 @@
       @loaded='telegramLoadedCallbackFunc'
       @callback="yourCallbackFunction"
   />
-
-  <!-- Redirect mode -->
-  <telegram-login-temp
-      mode="redirect"
-      telegram-login="rrrandom12_bot"
-      @loaded='telegramLoadedCallbackFunc'
-      redirect-url="url"
-  />
+  </div>
 </template>
 
 <script setup>
@@ -24,14 +18,10 @@ import { ref } from 'vue'
 const isLoaded = ref(false)
 
 function telegramLoadedCallbackFunc () {
-  console.log('script is loaded')
   isLoaded.value = true
 }
 
 function yourCallbackFunction (user) {
-  // gets user as an input
-  // id, first_name, last_name, username,
-  // photo_url, auth_date and hash
   console.log(user)
 }
 </script>

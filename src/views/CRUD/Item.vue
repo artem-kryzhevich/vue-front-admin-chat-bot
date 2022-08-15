@@ -1,0 +1,150 @@
+<template>
+  <CContainer fluid>
+    <CRow>
+      <CCol class="mb-1 pt-1 pb-1 bg-white d-flex align-items-center" v-if="flagEdit">
+        <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
+      </CCol>
+      <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
+        <CButton color="warning" class="me-3" @click="editInputsSection(getSection)">
+          <CIcon icon="cil-pencil"/>
+        </CButton>
+        <CButton color="danger" @click="methodDelete(getSection.id)">
+          <CIcon icon="cil-trash"/>
+        </CButton>
+      </CCol>
+    </CRow>
+  </CContainer>
+  <CTable bordered hover responsive class="table-fixed mb-0">
+    <CTableHead color="secondary">
+      <CTableRow>
+        <CTableHeaderCell scope="col">Название</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Значение</CTableHeaderCell>
+      </CTableRow>
+    </CTableHead>
+    <CTableBody color="light">
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id Товара</CTableHeaderCell>
+        <CTableDataCell class="text-one-line">{{ getSection.id }}</CTableDataCell>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Имя</CTableHeaderCell>
+        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.title }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormInput id="title" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.title" placeholder="title"
+                      :feedbackInvalid="feedbackInvalidInput('title')"
+                      @input="validateInput('title')"
+                      :valid="validOrInvalidInput('title', true)"
+                      :invalid="validOrInvalidInput('title', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Slug</CTableHeaderCell>
+        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.slug }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormInput id="slug" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.slug" placeholder="slug"
+                      :feedbackInvalid="feedbackInvalidInput('slug')"
+                      @input="validateInput('slug')"
+                      :valid="validOrInvalidInput('slug', true)"
+                      :invalid="validOrInvalidInput('slug', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена</CTableHeaderCell>
+        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.price }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormInput id="price" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.price" placeholder="price"
+                      :feedbackInvalid="feedbackInvalidInput('price')"
+                      @input="validateInput('price')"
+                      :valid="validOrInvalidInput('price', true)"
+                      :invalid="validOrInvalidInput('price', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Описание</CTableHeaderCell>
+        <CTableDataCell class="text-one-line"
+                        :style="!getSection.description ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
+                        v-if="!flagEdit">{{ getSection.description ? getSection.description : 'Не заданно' }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormTextarea id="description" aria-describedby="inputGroupPrepend"
+                         v-model="state.description" placeholder="description" rows="5"
+                         :feedbackInvalid="feedbackInvalidInput('description')"
+                         @input="validateInput('description')"
+                         :valid="validOrInvalidInput('description', true)"
+                         :invalid="validOrInvalidInput('description', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Период</CTableHeaderCell>
+        <CTableDataCell class="text-one-line"
+                        :style="!getSection.duration ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
+                        v-if="!flagEdit">{{ getSection.duration ? getSection.duration : 'Не заданно' }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormInput id="duration" value="" aria-describedby="inputGroupPrepend"
+                      v-model="state.duration" placeholder="duration"
+                      :feedbackInvalid="feedbackInvalidInput('duration')"
+                      @input="validateInput('duration')"
+                      :valid="validOrInvalidInput('duration', true)"
+                      :invalid="validOrInvalidInput('duration', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Покупка несколько раз</CTableHeaderCell>
+        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.can_buy_muliple_times }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormSwitch id="can_buy_muliple_times" aria-describedby="inputGroupPrepend"
+                       v-model="state.can_buy_muliple_times" label="Выключите свитч, если не нужна возможность покупать несколько раз!"
+                       @change="validateInput('can_buy_muliple_times')"
+                       :valid="validOrInvalidInput('can_buy_muliple_times', true)"
+                       :invalid="validOrInvalidInput('can_buy_muliple_times', false)"/>
+        </CInputGroup>
+      </CTableRow>
+
+      <CTableRow v-if="flagEdit">
+        <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
+          <CButton color="secondary" class="me-3" @click="cancellationEdit">Отменить</CButton>
+          <CButton color="primary" type="button" @click="checkValidateEditInputs(state)">Изменить
+          </CButton>
+        </CTableHeaderCell>
+      </CTableRow>
+    </CTableBody>
+
+  </CTable>
+</template>
+
+<script>
+import section from "@/mixins/section";
+import useVuelidate from "@vuelidate/core/dist/index.esm";
+import {rules, state} from "@/mixins/vuelidateItems";
+import {mapGetters} from "vuex";
+import {setValidDataItems} from "@/mixins/setValidDataCRUD";
+
+export default {
+  name: "Item",
+  mixins: [section],
+  setup() {
+    const v$ = useVuelidate(rules, state)
+    return {state, v$}
+  },
+  computed: {
+    ...mapGetters(['getRoles'])
+  },
+  methods: {
+    setValidData(state) {
+      return setValidDataItems(state)
+    }
+  },
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -24,6 +24,7 @@ export const rules = computed(() => {
             maxLength: helpers.withMessage(({ $params }) => `Поле не может быть больше ${$params.max} символов`, maxLength(100))
         },
         emoji: {
+            required: helpers.withMessage(customMessages.required, required),
             maxLength: helpers.withMessage(({ $params }) => `Поле не может быть больше ${$params.max} символов`, maxLength(30))
         },
         description: {

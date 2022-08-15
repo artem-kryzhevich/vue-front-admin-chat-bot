@@ -1,5 +1,6 @@
 import axiosInstance from "./api";
 import TokenService from "./token.service";
+import EventBus from "@/common/EventBus";
 
 const setup = (store) => {
     axiosInstance.interceptors.request.use(
@@ -24,9 +25,15 @@ const setup = (store) => {
                 // Access Token was expired
                 if (err.response.status === 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
+                    console.log(err)
+                    if (err.response && err.response.status === 401
+                        && err.response.data.detail === "Refresh token expired"
+                        && err.response.request.responseURL === process.env.VUE_APP_BACKEND_URL+"/refresh_token") {
+                        EventBus.dispatch("logout");
+                    }
                     try {
                         const rs = await axiosInstance.post("/refresh_token", {
-                            refresh_token: TokenService.getLocalRefreshToken(),
+                            refresh_token: TokenService.getLocalRefreshToken()
                         });
                         const { token } = rs.data;
                         store.dispatch('auth/refreshToken', token);

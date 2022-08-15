@@ -13,7 +13,21 @@ const routes = [
         path: '/users',
         name: 'Пользователи',
         component: () =>
-          import('@/views/Users.vue'),
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Users.vue'),
+          },
+          {
+            path: ':id',
+            name: 'Пользователь',
+            component: () =>
+                import('@/views/CRUD/User.vue'),
+          },
+        ]
       },
       {
         path: '/channels',
@@ -25,13 +39,41 @@ const routes = [
         path: '/roles',
         name: 'Роли',
         component: () =>
-            import('@/views/Roles.vue'),
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Roles.vue'),
+          },
+          {
+            path: ':id',
+            name: 'Роль',
+            component: () =>
+                import('@/views/CRUD/Role.vue'),
+          },
+        ]
       },
       {
         path: '/items',
         name: 'Товары',
         component: () =>
-            import('@/views/Items.vue'),
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Items.vue'),
+          },
+          {
+            path: ':id',
+            name: 'Товар',
+            component: () =>
+                import('@/views/CRUD/Item.vue'),
+          },
+        ]
       },
       {
         path: '/schedulers',
@@ -55,13 +97,47 @@ const routes = [
         path: '/payments-history',
         name: 'История оплат',
         component: () =>
-            import('@/views/PaymentsHistory.vue'),
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/PaymentsHistory.vue'),
+          },
+          {
+            path: ':id',
+            name: 'История оплаты',
+            component: () =>
+                import('@/views/CRUD/PaymentHistory.vue'),
+          },
+          {
+            path: 'user/:id',
+            name: 'История оплаты пользователя',
+            component: () =>
+                import('@/views/CRUD/PaymentHistoryUser.vue'),
+          },
+        ]
       },
       {
         path: '/categories',
         name: 'Категории',
         component: () =>
-            import('@/views/Categories.vue'),
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Categories.vue'),
+          },
+          {
+            path: ':id',
+            name: 'Категория',
+            component: () =>
+                import('@/views/CRUD/Category.vue'),
+          },
+        ]
       },
     ],
   },
@@ -69,16 +145,22 @@ const routes = [
     path: "/login",
     name: 'Авторизация',
     component: () =>
-        import('@/views/Login.vue'),
+        import('@/views/Authenticate/Login.vue'),
+  },
+  {
+    path: "/404",
+    name: 'Страница не найдена',
+    component: () =>
+        import('@/views/pages/Page404.vue'),
   },
   {
     path: "/:catchAll(.*)",
-    redirect: '/'
+    redirect: '/404',
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/admin/'),
   routes,
   scrollBehavior() {
     return { top: 0 }

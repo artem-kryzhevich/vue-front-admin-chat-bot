@@ -11,17 +11,24 @@ export default {
 
         array_count_row: [10,25,50,100],
         count_row: 10,
-        url: null
+        flagSorted: false,
+        propertySorted: 'id',
+
+        url: null,
+        backend_url: null,
+        url_param: null
     },
     actions: {
         async getAllData(ctx) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await api.get(ctx.state.url + '?page=' + ctx.state.current_page + '&limit=' + ctx.state.count_row).then(response => {
+                await api.get(ctx.state.backend_url + '?page=' + ctx.state.current_page
+                    + '&limit=' + ctx.state.count_row + '&filter_by=' + ctx.state.propertySorted
+                    + '&desc=' + ctx.state.flagSorted).then( (response) => {
                     if (response.status === 200) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         ctx.commit('updateData', response.data)
                     }
-                }).catch(function (error) {
+                }).catch( (error) => {
                     if (error.response && error.response.status === 403) {
                         EventBus.dispatch("logout");
                     }
@@ -32,37 +39,29 @@ export default {
         },
         async addData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await api.put(ctx.state.url + '/create', data).then(function (response) {
+                return await api.put(ctx.state.backend_url + '/create', data).then( (response) => {
                     if (response.status === 200) {
-                        ctx.dispatch('getAllData')
-                        ctx.commit('updateModalRequest', {data: 'success', text: 'Успешное добавление!'})
+                        //console.log(response);
+                        return Promise.resolve(response);
                     }
-                    console.log(response);
-                }).catch(function (error) {
-                    ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка добавления!'})
-                    if (error.response && error.response.status === 403) {
-                        EventBus.dispatch("logout");
-                    }
+                }).catch( (error) => {
                     console.log(error);
+                    return Promise.reject(error);
                 });
             } else
                 console.log(data)
         },
         async editingData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await api.post(ctx.state.url + '/' + data.id, data)
-                    .then(function (response) {
+                return await api.post(ctx.state.backend_url + '/' + data.id, data)
+                    .then( (response) => {
                         if (response.status === 200) {
-                            ctx.dispatch('getAllData')
-                            ctx.commit('updateModalRequest', {data: 'success', text: 'Успешное изменение!'})
+                            //console.log(response);
+                            return Promise.resolve(response);
                         }
-                        console.log(response);
-                    }).catch(function (error) {
-                        ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка изменения!'})
-                        if (error.response && error.response.status === 403) {
-                            EventBus.dispatch("logout");
-                        }
+                    }).catch( (error) => {
                         console.log(error);
+                        return Promise.reject(error);
                     });
             }
             else
@@ -70,19 +69,15 @@ export default {
         },
         async deleteData(ctx, id) {
             if (!!process.env.VUE_APP_DEBUG) {
-                await api.delete(ctx.state.url + '/' + id)
-                    .then(function (response) {
+                return await api.delete(ctx.state.backend_url + '/' + id)
+                    .then( (response) => {
                         if (response.status === 200) {
-                            ctx.dispatch('getAllData')
-                            ctx.commit('updateModalRequest', {data: 'success', text: 'Успешное удаление!'})
+                            //console.log(response);
+                            return Promise.resolve(response);
                         }
-                        console.log(response);
-                    }).catch(function (error) {
-                        ctx.commit('updateModalRequest', {data: 'error', text: 'Ошибка удаления!'})
-                        if (error.response && error.response.status === 403) {
-                            EventBus.dispatch("logout");
-                        }
+                    }).catch( (error) => {
                         console.log(error);
+                        return Promise.reject(error);
                     });
             }
             else
@@ -90,8 +85,11 @@ export default {
         },
     },
     getters: {
-        getUrl(state) {
-            return state.url
+        getBackendUrl(state) {
+            return state.backend_url
+        },
+        getUrlParam(state) {
+            return state.url_param
         },
         getData(state) {
             return state.data
@@ -107,11 +105,21 @@ export default {
         },
         getTotalPages(state) {
             return state.total_pages
+        },
+        getFlagSorted(state) {
+            return state.flagSorted
+        },
+        getPropertySorted(state) {
+            return state.propertySorted
         }
     },
     mutations: {
         updateUrl(state, name) {
-            state.url = process.env.VUE_APP_BACKEND_URL + name
+            state.backend_url = process.env.VUE_APP_BACKEND_URL + name
+            state.url = process.env.VUE_APP_BASE_URL + name
+        },
+        updateUrlParam(state, param) {
+            state.url_param = param
         },
         updateData(state, data) {
             state.data = data.data
@@ -131,6 +139,12 @@ export default {
                 icon: data.data,
                 title: data.text
             })
+        },
+        updatePropertySorted(state, data) {
+            state.propertySorted = data
+        },
+        updateFlagSorted(state, data) {
+            state.flagSorted = data
         }
     }
 }

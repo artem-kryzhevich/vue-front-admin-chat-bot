@@ -10,7 +10,7 @@ export default {
             if (!!process.env.VUE_APP_DEBUG) {
                 await api.get(process.env.VUE_APP_BACKEND_URL + '/roles?page=1&limit=100').then(response => {
                     if (response.status === 200) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         ctx.commit('updateRoles', response.data)
                     }
                 }).catch(function (error) {
