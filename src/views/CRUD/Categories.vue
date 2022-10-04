@@ -1,11 +1,20 @@
 <template>
   <CContainer fluid>
+    <CRow v-for="obj in $router.currentRoute.value.matched">
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black"
+            v-if="$router.currentRoute.value.path === obj.path && obj.name !== ''">
+        {{ obj.name }}
+      </CCol>
+    </CRow>
     <CRow>
-      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center">
-        {{ $router.currentRoute.value.name }}
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+        {{ getQuery !== null && getQuery !== '' && getQuery !== '{}' ? 'Результаты поиска...' : '' }}
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="success" @click="openAddModal" class="me-3">
+        <CButton color="info" @click="openSearchModal" class="btn-white me-3">
+          <CIcon icon="cil-Search"/>
+        </CButton>
+        <CButton color="success" @click="openAddModal" class="btn-white me-3">
           <CIcon icon="cil-plus"/>
         </CButton>
       </CCol>
@@ -18,7 +27,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id Категории
+                          @click="passingASortingParameter('id')">id
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
@@ -62,16 +71,17 @@
         <CTableDataCell class="text-one-line">
           <a :href="data.channel_url">{{ data.channel_url }}</a>
         </CTableDataCell>
-        <CTableDataCell class="text-one-line">{{ data.emoji }}</CTableDataCell>
+        <CTableDataCell class="text-one-line" :style="!data.emoji ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'">
+          {{ data.emoji ? data.emoji : 'Не заданно' }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.private_channel_tg_id }}</CTableDataCell>
         <CTableDataCell class="text-one-line align-text-center">
-          <CButton color="info" class="me-3" @click="pushOnRouteId(data.id)">
+          <CButton color="info" class="btn-white me-3" @click="pushOnRouteId(data.id)">
             <CIcon icon="cil-Notes"/>
           </CButton>
-          <CButton color="warning" class="me-3" @click="openEditModal(data)">
+          <CButton color="warning" class="btn-white me-3" @click="openEditModal(data)">
             <CIcon icon="cil-pencil"/>
           </CButton>
-          <CButton color="danger" @click="methodDelete(data.id)">
+          <CButton color="danger" class="btn-white" @click="methodDelete(data.id)">
             <CIcon icon="cil-trash"/>
           </CButton>
         </CTableDataCell>
@@ -109,7 +119,11 @@
   <categories_modal :state="state" :modalOpen="modalOpen" :modalTitle="modalTitle" :modalButton="modalButton"
                     :flagModal="flagModal" :feedbackInvalidInput="feedbackInvalidInput" :closeModal="closeModal"
                     :validateInput="validateInput" :validOrInvalidInput="validOrInvalidInput"
-                    :checkValidateModal="checkValidateModal"></categories_modal>
+                    :checkValidateModal="checkValidateModal" :textAreaAdjust="textAreaAdjust"></categories_modal>
+
+  <search_modal :modalSearchOpen="modalSearchOpen" :closeSearchModal="closeSearchModal" :openSearchModal="openSearchModal"
+                :getFlagQuery="getFlagQuery" :getQuery="getQuery" :getAllData="getAllData"
+                :getKeysData="getKeysData"></search_modal>
 </template>
 
 <script>
@@ -118,10 +132,11 @@ import useVuelidate from "@vuelidate/core/dist/index.esm";
 import {rules, state} from "@/mixins/vuelidateCategories";
 import {setValidDataCategories} from "@/mixins/setValidDataCRUD";
 import Categories_modal from "@/views/CRUD/modals/Categories_modal";
+import Search_modal from "@/views/CRUD/modals/search_modal";
 
 export default {
   name: "Categories",
-  components: {Categories_modal},
+  components: {Categories_modal, Search_modal},
   mixins: [main],
   setup() {
 

@@ -3,6 +3,7 @@ export function setValidDataUser(state, flag = false) {
     if (!flag) { data.id = Number(state.id) }
     data.first_name = String(state.first_name)
     data.second_name = state.second_name === null || state.second_name === '' ? null : String(state.second_name)
+    data.phone_number = state.phone_number === null || state.phone_number === '' ? null : String(state.phone_number)
     data.tg_id = Number(state.tg_id)
     data.role_id = state.role_id === 'null' ? null : Number(state.role_id);
     return data

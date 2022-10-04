@@ -18,7 +18,7 @@
       <CButton
           v-bind:style="!!(!iv$.collection.$invalid && iv$.collection.$dirty) ? 'display: none' : null"
           :disabled="loading"
-          color="info" class="mt-2 mb-2 ms-2" @click="handleUpload">
+          color="info" class="btn-white mt-2 mb-2 ms-2" @click="handleUpload">
         <CIcon v-if="!loading" icon="cil-CloudUpload"/>
         <CSpinner v-if="loading" color="dark"
                   v-bind:style="loading ? 'width: 16px;height: 16px' : null"/>
@@ -60,6 +60,10 @@
               {{ error[Object.keys(error)[0]].first_name[0].$property }} -
               {{ error[Object.keys(error)[0]].first_name[0].$message }}
             </div>
+            <div v-if="iv$.collection.$each.$response.$errors[Number(Object.keys(error)[0])].phone_number.length > 0">
+              {{ error[Object.keys(error)[0]].phone_number[0].$property }} -
+              {{ error[Object.keys(error)[0]].phone_number[0].$message }}
+            </div>
             <div
                 v-if="iv$.collection.$each.$response.$errors[Number(Object.keys(error)[0])].date_of_payment.length > 0">
               {{ error[Object.keys(error)[0]].date_of_payment[0].$property }} -
@@ -96,7 +100,7 @@ export default {
   },
   data() {
     return {
-      arrTitle: ['tg_id', 'first_name', 'phone', 'role', 'date_of_payment', 'subscribe_end_date'],
+      arrTitle: ['tg_id', 'first_name', 'phone_number', 'role', 'date_of_payment', 'subscribe_end_date'],
       loading: false,
       messageError: null
     }
@@ -104,11 +108,13 @@ export default {
   computed: {
     arrayCollectionErrors() {
       return this.iv$.collection.$each.$response.$errors.filter((e, i) => {
-        if (e.tg_id.length > 0 || e.first_name.length > 0 || e.date_of_payment.length > 0 || e.subscribe_end_date.length > 0)
+        if (e.tg_id.length > 0 || e.first_name.length > 0 || e.phone_number.length > 0
+            || e.date_of_payment.length > 0 || e.subscribe_end_date.length > 0)
           return this.iv$.collection.$each.$response.$errors[i]
       }).map((value, i) => (reactive({
         [this.iv$.collection.$each.$response.$errors.map((e, i) => {
-          if (e.tg_id.length > 0 || e.first_name.length > 0 || e.date_of_payment.length > 0 || e.subscribe_end_date.length > 0)
+          if (e.tg_id.length > 0 || e.first_name.length > 0 || e.phone_number.length > 0
+              || e.date_of_payment.length > 0 || e.subscribe_end_date.length > 0)
             return i
         }).filter(e => e !== undefined && e !== null)[i]]: value
       })))

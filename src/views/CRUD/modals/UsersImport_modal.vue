@@ -7,29 +7,38 @@
       <upload-excel-component :on-success="handleSuccess" :importState="importState" :iv$="iv$"/>
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="closeImportModal(iv$, importState)">Отмена</CButton>
-      <CButton color="primary" type="button" @click="checkValidateImportModal(importState)">Загрузить</CButton>
+      <CButton color="secondary" class="btn-white" @click="closeImportModal(iv$, importState)">Отмена</CButton>
+      <CButton color="primary" type="button" class="btn-white" @click="checkValidateImportModal(importState)">Загрузить</CButton>
     </CModalFooter>
   </CModal>
 </template>
 
 <script>
 import UploadExcelComponent from "@/components/UploadExcel";
-import {reactive, toRaw} from "vue";
-import {helpers, required} from "@vuelidate/validators";
+import {getCurrentInstance, reactive, toRaw} from "vue";
+import {helpers, maxLength, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core/dist/index.esm";
 import EventBus from "@/common/EventBus";
 
 export default {
   name: "UsersImport_modal",
-  props: [ 'modalImportOpen', 'closeImportModal', 'openImportModal' ],
-  components: { UploadExcelComponent },
+  props: ['modalImportOpen', 'closeImportModal', 'openImportModal'],
+  components: {UploadExcelComponent},
   setup() {
-    let telegram_id = helpers.regex(/^[1-9]\d*$/)
+    const internalInstance = getCurrentInstance()
+
+    let telegram_id = helpers.regex(/^(-?#?-?#?)[1-9]\d*$/)
     const customMessages = reactive({
       required: 'Поле обязательно для заполнения',
       telegram_id: 'Поле может содержать только цифры',
+      date: 'Поле должно быть в формате даты'
     })
+
+    const myMoment = internalInstance.appContext.config.globalProperties.$moment
+    const formats = ['DD.MM.YYYY', 'D.MM.YYYY', 'DD.M.YYYY', 'YYYY.MM.DD', 'YYYY.M.DD', 'YYYY.MM.D',
+      'D-MM-YYYY', 'DD-M-YYYY', 'DD-MM-YYYY', 'YYYY-MM-DD', 'YYYY-M-DD', 'YYYY-MM-D',
+      'D/MM/YYYY', 'DD/M/YYYY', 'DD/MM/YYYY', 'YYYY/MM/DD', 'YYYY/M/DD', 'YYYY/MM/D'];
+
     const rules = {
       collection: {
         $each: helpers.forEach({
@@ -37,31 +46,55 @@ export default {
             required: helpers.withMessage(customMessages.required, required),
             telegram_id: helpers.withMessage(customMessages.telegram_id, telegram_id)
           },
-          first_name: { required: helpers.withMessage(customMessages.required, required) },
-          phone: { },
-          role: { },
-          date_of_payment: { required: helpers.withMessage(customMessages.required, required), },
-          subscribe_end_date: { required: helpers.withMessage(customMessages.required, required), }
+          first_name: {required: helpers.withMessage(customMessages.required, required)},
+          phone_number: {
+            maxLength: helpers.withMessage(({ $params }) => `Поле не может быть больше ${$params.max} символов`, maxLength(25))
+          },
+          role: {},
+          date_of_payment: {
+            required: helpers.withMessage(customMessages.required, required),
+            date: helpers.withMessage(customMessages.date,
+                value => myMoment(value, formats, true).isValid()),
+          },
+          subscribe_end_date: {
+            required: helpers.withMessage(customMessages.required, required),
+            date: helpers.withMessage(customMessages.date,
+                value => myMoment(value, formats, true).isValid()),
+          }
         })
       }
     }
-    const importState = reactive({ collection: [] })
+    const importState = reactive({collection: []})
     const iv$ = useVuelidate(rules, importState)
-    return { iv$, importState }
+    return {iv$, importState}
   },
   methods: {
-    handleSuccess({ results }) {
+    handleSuccess({results}) {
       this.importState.collection = results
     },
     checkValidateImportModal(importState) {
       this.iv$.$validate()
       if (!this.iv$.$error) {
         let data = toRaw(importState.collection)
-        this.$store.commit('updateModalRequest', {data: 'success', text: 'Успешное добавление! ' + JSON.stringify(data)})
-        /*this.$store.dispatch('importUsers', data).then(
+        let myMoment = this.$moment
+        const formats = ['DD.MM.YYYY', 'D.MM.YYYY', 'DD.M.YYYY', 'YYYY.MM.DD', 'YYYY.M.DD', 'YYYY.MM.D',
+          'D-MM-YYYY', 'DD-M-YYYY', 'DD-MM-YYYY', 'YYYY-MM-DD', 'YYYY-M-DD', 'YYYY-MM-D',
+          'D/MM/YYYY', 'DD/M/YYYY', 'DD/MM/YYYY', 'YYYY/MM/DD', 'YYYY/M/DD', 'YYYY/MM/D'];
+        data.forEach(e => {
+          e.tg_id = Number(String(e.tg_id).replace(/\D/g, ''));
+          e.first_name = e.first_name !== null && e.first_name !== '' ? String(e.first_name) : null;
+          e.phone_number = e.phone_number !== null && e.phone_number !== '' ? String(e.phone_number) : null;
+          e.date_of_payment = myMoment(e.date_of_payment, formats, true).format('YYYY-MM-DD') + 'T00:00:00.000Z';
+          e.subscribe_end_date = myMoment(e.subscribe_end_date, formats, true).format('YYYY-MM-DD') + 'T00:00:00.000Z';
+        })
+        this.$store.dispatch('importUsers', {"data": data}).then(
             (response) => {
+              if (response.status === 200) {
+                this.$store.commit('updateUrl', this.$route.path.replace(/(\/*$)/, ""))
+                this.$store.dispatch('getAllData')
                 this.$store.commit('updateModalRequest', {data: 'success', text: 'Успешное добавление!'})
                 this.closeImportModal(this.iv$, this.importState)
+              }
             },
             (error) => {
               this.$store.commit('updateModalRequest', {data: 'error', text: 'Ошибка добавления!'})
@@ -69,7 +102,7 @@ export default {
                 EventBus.dispatch("logout");
               }
             }
-        )*/
+        )
       }
     }
   }

@@ -45,8 +45,8 @@
       </CCol>
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="closeModal">Закрыть</CButton>
-      <CButton color="primary" type="button" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
+      <CButton color="secondary" class="btn-white" @click="closeModal">Закрыть</CButton>
+      <CButton color="primary" type="button" class="btn-white" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -58,7 +58,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 export default {
   name: "PaymentsHistory_modal",
   props: ['state', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal',
-    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput'],
+    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput', 'textAreaAdjust'],
   components: {Datepicker},
 }
 </script>

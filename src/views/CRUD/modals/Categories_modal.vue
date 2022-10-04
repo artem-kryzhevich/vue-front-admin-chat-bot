@@ -7,12 +7,13 @@
       <CCol xs="12">
         <CFormLabel for="title">Название</CFormLabel>
         <CInputGroup class="has-validation">
-          <CFormInput id="title" value="" aria-describedby="inputGroupPrepend" required
-                      v-model="state.title" placeholder="title"
+          <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.title" placeholder="title" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('title')"
                       @input="validateInput('title')"
                       :valid="validOrInvalidInput('title', true)"
-                      :invalid="validOrInvalidInput('title', false)"/>
+                      :invalid="validOrInvalidInput('title', false)"
+                      @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
@@ -45,7 +46,8 @@
                          :feedbackInvalid="feedbackInvalidInput('channel_url')"
                          @input="validateInput('channel_url')"
                          :valid="validOrInvalidInput('channel_url', true)"
-                         :invalid="validOrInvalidInput('channel_url', false)"/>
+                         :invalid="validOrInvalidInput('channel_url', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
@@ -73,8 +75,8 @@
 
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="closeModal">Закрыть</CButton>
-      <CButton color="primary" type="button" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
+      <CButton color="secondary" class="btn-white" @click="closeModal">Закрыть</CButton>
+      <CButton color="primary" class="btn-white" type="button" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -83,7 +85,7 @@
 export default {
   name: "Categories_modal",
   props: ['state', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal',
-    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput'],
+    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput', 'textAreaAdjust'],
 }
 </script>
 

@@ -1,11 +1,11 @@
 <template>
   <CContainer fluid>
     <CRow>
-      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center">
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
         {{ $router.currentRoute.value.name + " " + $router.currentRoute.value.params.id}}
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="success" @click="openAddModal" class="me-3">
+        <CButton color="success" @click="openAddModal" class="btn-white me-3">
           <CIcon icon="cil-plus"/>
         </CButton>
       </CCol>
@@ -45,13 +45,13 @@
         <CTableDataCell class="text-one-line"><a :href="'/users/'+data.user_id">{{ data.user_id }}</a></CTableDataCell>
         <CTableDataCell class="text-one-line">{{ $moment(data.expiration_date).format('LL') }}</CTableDataCell>
         <CTableDataCell class="text-one-line align-text-center">
-          <CButton color="info" class="me-3" @click="pushOnRouteId(data.id)">
+          <CButton color="info" class="btn-white me-3" @click="pushOnRouteId(data.id)">
             <CIcon icon="cil-Notes"/>
           </CButton>
-          <CButton color="warning" class="me-3" @click="openEditModal(data)">
+          <CButton color="warning" class="btn-white me-3" @click="openEditModal(data)">
             <CIcon icon="cil-pencil"/>
           </CButton>
-          <CButton color="danger" @click="methodDelete(data.id)">
+          <CButton color="danger" class="btn-white" @click="methodDelete(data.id)">
             <CIcon icon="cil-trash"/>
           </CButton>
         </CTableDataCell>
@@ -89,7 +89,7 @@
   <PaymentsHistory_modal :state="state" :modalOpen="modalOpen" :modalTitle="modalTitle" :modalButton="modalButton"
                          :flagModal="flagModal" :feedbackInvalidInput="feedbackInvalidInput" :closeModal="closeModal"
                          :validateInput="validateInput" :validOrInvalidInput="validOrInvalidInput"
-                         :checkValidateModal="checkValidateModal"></PaymentsHistory_modal>
+                         :checkValidateModal="checkValidateModal" :textAreaAdjust="textAreaAdjust"></PaymentsHistory_modal>
 </template>
 
 <script>

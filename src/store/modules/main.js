@@ -14,6 +14,9 @@ export default {
         flagSorted: false,
         propertySorted: 'id',
 
+        flag_query: false,
+        query: '',
+
         url: null,
         backend_url: null,
         url_param: null
@@ -21,9 +24,15 @@ export default {
     actions: {
         async getAllData(ctx) {
             if (!!process.env.VUE_APP_DEBUG) {
+                let query
+                if (ctx.state.query === null || ctx.state.query === '') {query = ''}
+                else {query = '&q=' + ctx.state.query}
+
                 await api.get(ctx.state.backend_url + '?page=' + ctx.state.current_page
                     + '&limit=' + ctx.state.count_row + '&filter_by=' + ctx.state.propertySorted
-                    + '&desc=' + ctx.state.flagSorted).then( (response) => {
+                    + '&desc=' + ctx.state.flagSorted
+                    + query
+                ).then( (response) => {
                     if (response.status === 200) {
                         //console.log(response.data);
                         ctx.commit('updateData', response.data)
@@ -111,6 +120,13 @@ export default {
         },
         getPropertySorted(state) {
             return state.propertySorted
+        },
+
+        getFlagQuery(state) {
+            return state.flag_query
+        },
+        getQuery(state) {
+            return state.query
         }
     },
     mutations: {
@@ -145,6 +161,13 @@ export default {
         },
         updateFlagSorted(state, data) {
             state.flagSorted = data
+        },
+
+        updateFlagQuery(state, data) {
+            state.flag_query = data
+        },
+        updateQuery(state, data) {
+            state.query = data
         }
     }
 }

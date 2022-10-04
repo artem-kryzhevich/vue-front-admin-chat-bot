@@ -1,10 +1,10 @@
 import {computed, reactive} from 'vue'
-import {helpers, integer, maxLength, required} from '@vuelidate/validators'
+import {helpers, maxLength, numeric, required} from '@vuelidate/validators'
 
 const customMessages = reactive({
     required: 'Поле обязательно для заполнения',
     boolean: 'Выберите can_buy_muliple_times',
-    integer: 'Поле должно быть числом'
+    numeric: 'Поле должно быть числом'
 })
 export const state = reactive({
     "title": null,
@@ -26,7 +26,7 @@ export const rules = computed(() => {
         },
         price: {
             required: helpers.withMessage(customMessages.required, required),
-            integer: helpers.withMessage(customMessages.integer, integer),
+            numeric: helpers.withMessage(customMessages.numeric, numeric),
         },
         description: {
             required: helpers.withMessage(customMessages.required, required),
@@ -34,7 +34,7 @@ export const rules = computed(() => {
         },
         duration: {
             required: helpers.withMessage(customMessages.required, required),
-            integer: helpers.withMessage(customMessages.integer, integer)
+            numeric: helpers.withMessage(customMessages.numeric, numeric)
         },
         can_buy_muliple_times: {
             boolean: helpers.withMessage(customMessages.boolean, value => value === true || value === false),

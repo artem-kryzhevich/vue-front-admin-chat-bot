@@ -5,10 +5,10 @@
         <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="warning" class="me-3" @click="editInputsSection(getSection)">
+        <CButton color="warning" class="btn-white me-3" @click="editInputsSection(getSection)">
           <CIcon icon="cil-pencil"/>
         </CButton>
-        <CButton color="danger" @click="methodDelete(getSection.id)">
+        <CButton color="danger" class="btn-white" @click="methodDelete(getSection.id)">
           <CIcon icon="cil-trash"/>
         </CButton>
       </CCol>
@@ -74,8 +74,8 @@
 
       <CTableRow v-if="flagEdit">
         <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
-          <CButton color="secondary" class="me-3" @click="cancellationEdit">Отменить</CButton>
-          <CButton color="primary" type="button" @click="checkValidateEditInputs(state)">Изменить
+          <CButton color="secondary" class="btn-white me-3" @click="cancellationEdit">Отменить</CButton>
+          <CButton color="primary" type="button" class="btn-white" @click="checkValidateEditInputs(state)">Изменить
           </CButton>
         </CTableHeaderCell>
       </CTableRow>

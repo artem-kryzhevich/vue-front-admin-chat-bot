@@ -27,6 +27,17 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
+        <CFormLabel for="phone_number">Номер телефона</CFormLabel>
+        <CInputGroup class="has-validation">
+          <CFormInput id="phone_number" aria-describedby="inputGroupPrepend"
+                      v-model="state.phone_number" placeholder="7123456789"
+                      :feedbackInvalid="feedbackInvalidInput('phone_number')"
+                      @input="validateInput('phone_number')"
+                      :valid="validOrInvalidInput('phone_number', true)"
+                      :invalid="validOrInvalidInput('phone_number', false)"/>
+        </CInputGroup>
+      </CCol>
+      <CCol xs="12">
         <CFormLabel for="tg_id">TG id</CFormLabel>
         <CInputGroup class="has-validation">
           <CFormInput id="telegram_id" aria-describedby="inputGroupPrepend" required
@@ -56,8 +67,8 @@
       </CCol>
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="closeModal">Закрыть</CButton>
-      <CButton color="primary" type="button" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
+      <CButton color="secondary" class="btn-white" @click="closeModal">Закрыть</CButton>
+      <CButton color="primary" type="button" class="btn-white" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -66,7 +77,7 @@
 export default {
   name: "User_modal",
   props: ['state', 'getRoles', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal',
-          'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput']
+          'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput', 'textAreaAdjust']
 }
 </script>
 

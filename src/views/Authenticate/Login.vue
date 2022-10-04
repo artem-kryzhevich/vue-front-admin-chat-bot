@@ -2,12 +2,12 @@
   <div class="bg-light min-vh-100 d-flex flex-row align-items-center bg_login">
     <CContainer class="d-flex justify-content-center">
       <div class="wrap_login justify-content-center">
-        <div class="d-flex justify-content-center w-100 js-tilt mb-5" data-tilt>
-          <CImage class="d-flex justify-content-center m-auto w-75" fluid src="/logo.png" />
+        <div class="d-flex justify-content-center w-100 js-tilt mb-3" data-tilt>
+          <CImage class="d-flex justify-content-center m-auto w-100" fluid src="/logo_black.png" />
         </div>
         <CForm class="w-100">
           <AppLogin></AppLogin>
-          <CFormLabel for="tg_id">Telegram ID</CFormLabel>
+          <CFormLabel for="tg_id" class="d-flex justify-content-center" v-bind:style="'font-weight: bold;'">Telegram ID</CFormLabel>
           <CFormInput placeholder="Введите telegram ID" id="tg_id" value="" aria-describedby="inputGroupPrepend"
                       v-model="state.tg_id"
                       :feedbackInvalid="feedbackInvalidInput('tg_id')"
@@ -15,7 +15,7 @@
                       :valid="validOrInvalidInput('tg_id', true)"
                       :invalid="validOrInvalidInput('tg_id', false)"/>
           <CButton color="primary" type="button" @click="handleLogin(Number(state.tg_id))"
-                   class="d-flex w-25 justify-content-center m-auto mt-3">Войти</CButton>
+                   class="d-flex w-100 justify-content-center m-auto mt-3 border-radius-10 button-login">Войти</CButton>
         </CForm>
       </div>
     </CContainer>

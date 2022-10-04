@@ -5,10 +5,10 @@
         <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="warning" class="me-3" @click="editInputsSection(getSection)">
+        <CButton color="warning" class="btn-white me-3" @click="editInputsSection(getSection)">
           <CIcon icon="cil-pencil"/>
         </CButton>
-        <CButton color="danger" @click="methodDelete(getSection.id)">
+        <CButton color="danger" class="btn-white" @click="methodDelete(getSection.id)">
           <CIcon icon="cil-trash"/>
         </CButton>
       </CCol>
@@ -23,7 +23,7 @@
     </CTableHead>
     <CTableBody color="light">
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id Категории</CTableHeaderCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id</CTableHeaderCell>
         <CTableDataCell class="text-one-line">{{ getSection.id }}</CTableDataCell>
       </CTableRow>
       <CTableRow>
@@ -31,12 +31,13 @@
         <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.title }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
-          <CFormInput id="title" value="" aria-describedby="inputGroupPrepend"
-                      v-model="state.title" placeholder="title"
+          <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend"
+                      v-model="state.title" placeholder="title" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('title')"
                       @input="validateInput('title')"
                       :valid="validOrInvalidInput('title', true)"
-                      :invalid="validOrInvalidInput('title', false)"/>
+                      :invalid="validOrInvalidInput('title', false)"
+                      @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
@@ -72,12 +73,16 @@
                          :feedbackInvalid="feedbackInvalidInput('channel_url')"
                          @input="validateInput('channel_url')"
                          :valid="validOrInvalidInput('channel_url', true)"
-                         :invalid="validOrInvalidInput('channel_url', false)"/>
+                         :invalid="validOrInvalidInput('channel_url', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Эмодзи</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.emoji }}</CTableDataCell>
+        <CTableDataCell class="text-one-line"
+                        :style="!getSection.emoji ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
+                        v-if="!flagEdit">{{ getSection.emoji ? getSection.emoji : 'Не заданно' }}
+        </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormInput id="emoji" aria-describedby="inputGroupPrepend" required
                       v-model="state.emoji" placeholder="emoji"
@@ -102,8 +107,8 @@
 
       <CTableRow v-if="flagEdit">
         <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
-          <CButton color="secondary" class="me-3" @click="cancellationEdit">Отменить</CButton>
-          <CButton color="primary" type="button" @click="checkValidateEditInputs(state)">Изменить
+          <CButton color="secondary" class="btn-white me-3" @click="cancellationEdit">Отменить</CButton>
+          <CButton color="primary" type="button" class="btn-white" @click="checkValidateEditInputs(state)">Изменить
           </CButton>
         </CTableHeaderCell>
       </CTableRow>

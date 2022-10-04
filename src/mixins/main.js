@@ -1,7 +1,10 @@
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {
-    booleanUniquePaymentHistoryUser, booleanUniquePaymentHistoryItem,
-    checkValidateModal, clearData, feedbackInvalidInput,
+    booleanUniquePaymentHistoryItem,
+    booleanUniquePaymentHistoryUser,
+    checkValidateModal,
+    clearData,
+    feedbackInvalidInput,
     methodDelete,
     openAddModal,
     openEditModal,
@@ -15,11 +18,13 @@ export default {
     data() {
         return {
             flagModal: true,
-            modalOpen: false
+            modalOpen: false,
+            modalSearchOpen: false
         }
     },
     computed: {
-        ...mapGetters(['getData', 'getTotalPages', 'getArrayCountRow', 'getCountRow', 'getCurrentPage', 'getFlagSorted', 'getPropertySorted']),
+        ...mapGetters(['getData', 'getTotalPages', 'getArrayCountRow', 'getCountRow',
+            'getCurrentPage', 'getFlagSorted', 'getPropertySorted', 'getFlagQuery', 'getQuery']),
         modalTitle() { return this.flagModal ? 'Добавление' : 'Редактирование' },
         modalButton() { return this.flagModal ? 'Добавить' : 'Изменить' },
         countData: {
@@ -29,11 +34,19 @@ export default {
         current_page: {
             get() { return this.getCurrentPage },
             set(value) { this.$store.commit('updateCurrentPage', value) }
+        },
+        getKeysData() {
+            if (this.getData.length > 0) {
+                return Object.keys(this.getData[0]).filter( (f) => {
+                    return f !== 'created_at' && f !== 'deleted_at' && f !== 'updated_at'
+                })
+            }
         }
     },
     methods: {
         ...mapActions(['getAllData', 'addData', 'editingData', 'deleteData', 'getAllRoles']),
-        ...mapMutations(['updateCountRow', 'updateCurrentPage', 'updateUrl', 'updateUrlParam', 'updateFlagSorted', 'updateFlagSorted']),
+        ...mapMutations(['updateCountRow', 'updateCurrentPage', 'updateUrl',
+            'updateUrlParam', 'updateFlagSorted', 'updateFlagSorted', 'updateFlagQuery', 'updateQuery']),
         async clickCallback(page) {
             this.$store.commit('updateCurrentPage', page)
             await this.getAllData()
@@ -75,7 +88,17 @@ export default {
             }
         },
         booleanUniquePaymentHistoryUser,
-        booleanUniquePaymentHistoryItem
+        booleanUniquePaymentHistoryItem,
+        openSearchModal() {
+            return this.modalSearchOpen = !this.modalSearchOpen
+        },
+        closeSearchModal() {
+            this.openSearchModal()
+        },
+        textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25+element.scrollHeight)+"px";
+        }
     },
     async mounted() {
         this.$store.commit('updateUrl', this.$route.path.replace(/(\/*$)/, ""))
@@ -85,7 +108,6 @@ export default {
         if (this.$route.path.replace(/(\/*$)/, "") === '/users') {
             await this.getAllRoles()
         }
-        /** ********* **/
 
         await this.getAllData()
     }

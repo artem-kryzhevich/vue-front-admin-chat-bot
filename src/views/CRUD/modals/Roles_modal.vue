@@ -7,23 +7,25 @@
       <CCol xs="12">
         <CFormLabel for="title">Название</CFormLabel>
         <CInputGroup class="has-validation">
-          <CFormInput id="title" value="" aria-describedby="inputGroupPrepend" required
-                      v-model="state.title" placeholder="title"
+          <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.title" placeholder="title" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('title')"
                       @input="validateInput('title')"
                       :valid="validOrInvalidInput('title', true)"
-                      :invalid="validOrInvalidInput('title', false)"/>
+                      :invalid="validOrInvalidInput('title', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
         <CFormLabel for="slug">Slug</CFormLabel>
         <CInputGroup class="has-validation">
-          <CFormInput id="slug" aria-describedby="inputGroupPrepend" required
-                      v-model="state.slug" placeholder="slug"
+          <CFormTextarea id="slug" aria-describedby="inputGroupPrepend" required
+                      v-model="state.slug" placeholder="slug" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('slug')"
                       @input="validateInput('slug')"
                       :valid="validOrInvalidInput('slug', true)"
-                      :invalid="validOrInvalidInput('slug', false)"/>
+                      :invalid="validOrInvalidInput('slug', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
@@ -45,7 +47,8 @@
                          :feedbackInvalid="feedbackInvalidInput('description')"
                          @input="validateInput('description')"
                          :valid="validOrInvalidInput('description', true)"
-                         :invalid="validOrInvalidInput('description', false)"/>
+                         :invalid="validOrInvalidInput('description', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
@@ -56,7 +59,8 @@
                          :feedbackInvalid="feedbackInvalidInput('form')"
                          @input="validateInput('form')"
                          :valid="validOrInvalidInput('form', true)"
-                         :invalid="validOrInvalidInput('form', false)"/>
+                         :invalid="validOrInvalidInput('form', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">
@@ -71,8 +75,8 @@
       </CCol>
     </CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="closeModal">Закрыть</CButton>
-      <CButton color="primary" type="button" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
+      <CButton color="secondary" class="btn-white" @click="closeModal">Закрыть</CButton>
+      <CButton color="primary" type="button" class="btn-white" @click="checkValidateModal(state)">{{ modalButton }}</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -81,7 +85,7 @@
 export default {
   name: "Roles_modal",
   props: ['state', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal',
-    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput'],
+    'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput', 'textAreaAdjust'],
 }
 </script>
 

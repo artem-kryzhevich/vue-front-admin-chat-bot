@@ -139,6 +139,62 @@ const routes = [
           },
         ]
       },
+      {
+        path: '/statistics',
+        name: 'Статистика',
+        component: () =>
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Statistics.vue'),
+          },
+        ]
+      },
+      {
+        path: '/notify',
+        name: 'Рассылка',
+        component: () =>
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Notify.vue'),
+          },
+        ]
+      },
+      {
+        path: '/bot/info',
+        name: 'Редактор бота',
+        component: () =>
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/BotInfo.vue'),
+          },
+        ]
+      },
+      {
+        path: '/event',
+        name: 'Мероприятия',
+        component: () =>
+            import('@/views/LayoutCRUD/LayoutCRUD.vue'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () =>
+                import('@/views/CRUD/Event.vue'),
+          },
+        ]
+      },
     ],
   },
   {

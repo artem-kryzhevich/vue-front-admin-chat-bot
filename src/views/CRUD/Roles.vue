@@ -1,11 +1,20 @@
 <template>
   <CContainer fluid>
+    <CRow v-for="obj in $router.currentRoute.value.matched">
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black"
+            v-if="$router.currentRoute.value.path === obj.path && obj.name !== ''">
+        {{ obj.name }}
+      </CCol>
+    </CRow>
     <CRow>
-      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center">
-        {{ $router.currentRoute.value.name }}
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+        {{ getQuery !== null && getQuery !== '' && getQuery !== '{}' ? 'Результаты поиска...' : '' }}
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="success" @click="openAddModal" class="me-3">
+        <CButton color="info" @click="openSearchModal" class="btn-white me-3">
+          <CIcon icon="cil-Search"/>
+        </CButton>
+        <CButton color="success" @click="openAddModal" class="btn-white me-3">
           <CIcon icon="cil-plus"/>
         </CButton>
       </CCol>
@@ -18,7 +27,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id Роли
+                          @click="passingASortingParameter('id')">id
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
@@ -66,13 +75,13 @@
           <a :href="data.form ? data.form : null">{{ data.form ? data.form : 'Не заданно' }}</a></CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.is_visible ? 'Да' : 'Нет' }}</CTableDataCell>
         <CTableDataCell class="text-one-line align-text-center">
-          <CButton color="info" class="me-3" @click="pushOnRouteId(data.id)">
+          <CButton color="info" class="btn-white me-3" @click="pushOnRouteId(data.id)">
             <CIcon icon="cil-Notes"/>
           </CButton>
-          <CButton color="warning" class="me-3" @click="openEditModal(data)">
+          <CButton color="warning" class="btn-white me-3" @click="openEditModal(data)">
             <CIcon icon="cil-pencil"/>
           </CButton>
-          <CButton color="danger" @click="methodDelete(data.id)">
+          <CButton color="danger" class="btn-white" @click="methodDelete(data.id)">
             <CIcon icon="cil-trash"/>
           </CButton>
         </CTableDataCell>
@@ -111,8 +120,11 @@
   <roles_modal :state="state" :modalOpen="modalOpen" :modalTitle="modalTitle" :modalButton="modalButton"
                :flagModal="flagModal" :feedbackInvalidInput="feedbackInvalidInput" :closeModal="closeModal"
                :validateInput="validateInput" :validOrInvalidInput="validOrInvalidInput"
-               :checkValidateModal="checkValidateModal"></roles_modal>
+               :checkValidateModal="checkValidateModal" :textAreaAdjust="textAreaAdjust"></roles_modal>
 
+  <search_modal :modalSearchOpen="modalSearchOpen" :closeSearchModal="closeSearchModal" :openSearchModal="openSearchModal"
+                :getFlagQuery="getFlagQuery" :getQuery="getQuery" :getAllData="getAllData"
+                :getKeysData="getKeysData"></search_modal>
 </template>
 
 <script>
@@ -121,10 +133,11 @@ import main from "@/mixins/main";
 import useVuelidate from "@vuelidate/core/dist/index.esm";
 import {setValidDataRole} from "@/mixins/setValidDataCRUD";
 import Roles_modal from "@/views/CRUD/modals/Roles_modal";
+import Search_modal from "@/views/CRUD/modals/search_modal";
 
 export default {
   name: "Roles",
-  components: {Roles_modal},
+  components: {Search_modal, Roles_modal},
   mixins: [main],
   setup() {
     const v$ = useVuelidate(rules, state)

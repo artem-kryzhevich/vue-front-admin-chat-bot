@@ -1,9 +1,9 @@
 import {computed, reactive} from 'vue'
-import {helpers, integer, required} from '@vuelidate/validators'
+import {helpers, numeric, required} from '@vuelidate/validators'
 
 const customMessages = reactive({
     required: 'Поле обязательно для заполнения',
-    integer: 'Поле должно быть числом',
+    numeric: 'Поле должно быть числом',
     isUniqueItem: 'Товар не найден',
     isUniqueUser: 'Пользователь не найден'
 })
@@ -22,12 +22,12 @@ export const rules = computed(() => {
     return {
         item_id: {
             required: helpers.withMessage(customMessages.required, required),
-            integer: helpers.withMessage(customMessages.integer, integer),
+            numeric: helpers.withMessage(customMessages.numeric, numeric),
             isUniqueItem: helpers.withMessage(customMessages.isUniqueItem, isUniqueItem)
         },
         user_id: {
             required: helpers.withMessage(customMessages.required, required),
-            integer: helpers.withMessage(customMessages.integer, integer),
+            numeric: helpers.withMessage(customMessages.numeric, numeric),
             isUniqueUser: helpers.withMessage(customMessages.isUniqueUser, isUniqueUser)
         },
         expiration_date: {

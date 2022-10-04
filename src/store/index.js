@@ -4,6 +4,10 @@ import roles from "@/store/modules/roles";
 import { auth } from "@/store/auth.module";
 import sections from "@/store/modules/sections";
 import users from "@/store/modules/users";
+import notify from "@/store/modules/notify";
+import bot_info from "@/store/modules/bot_info";
+import bot_event from "@/store/modules/bot_event";
+import statistics from "@/store/modules/statistics";
 
 export default createStore({
   state: {
@@ -22,6 +26,6 @@ export default createStore({
     }
   },
   modules: {
-      auth, main, roles, sections, users
+      auth, main, roles, sections, users, notify, bot_info, bot_event, statistics
   },
 })

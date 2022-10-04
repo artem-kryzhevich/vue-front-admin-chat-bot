@@ -78,3 +78,33 @@ table.table-fixed {
   background-position: right calc(0.375em + 0.75rem) center !important;
   pointer-events: none !important;
 }
+.btn-white {
+  --cui-btn-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-hover-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-active-color: rgba(255, 255, 255, 0.87);
+  --cui-btn-disabled-color: rgba(255, 255, 255, 0.87);
+}
+.btn-payment-history {
+  --cui-btn-bg: #7cc144;
+  --cui-btn-border-color: #7cc144;
+  --cui-btn-hover-bg: #458f41;
+  --cui-btn-hover-border-color: #458f41;
+  --cui-btn-active-bg: #7cc144;
+  --cui-btn-active-border-color: #7cc144;
+  --cui-btn-disabled-bg: #7cc144;
+  --cui-btn-disabled-border-color: #7cc144;
+  --cui-btn-shadow: rgba(157, 165, 177, 0.5);
+}
+#inputGroupPrepend-users {
+  order: 3;
+}
+#inputGroupPrepend-photos {
+  order: 3;
+}
+#inputGroupPrepend-videos {
+  order: 3;
+}
+
+.chartjs-tooltip{
+  width: auto;
+}

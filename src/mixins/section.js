@@ -77,6 +77,10 @@ export default {
         },
         pushOnRoutePaymentHistoryUser(id) {
             this.$router.push( '/payments-history/user/' + id)
+        },
+        textAreaAdjust(element) {
+            element.style.height = "1px";
+            element.style.height = (25+element.scrollHeight)+"px";
         }
     },
     async mounted() {

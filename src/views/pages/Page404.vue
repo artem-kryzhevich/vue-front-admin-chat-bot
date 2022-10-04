@@ -15,7 +15,7 @@
               <CIcon icon="cil-magnifying-glass" />
             </CInputGroupText>
             <CFormInput type="text" placeholder="What are you looking for?" />
-            <CButton color="info">Search</CButton>
+            <CButton color="info" class="btn-white">Search</CButton>
           </CInputGroup>
         </CCol>
       </CRow>

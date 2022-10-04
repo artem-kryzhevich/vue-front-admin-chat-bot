@@ -6,10 +6,14 @@ import store from './store'
 import axios from "axios";
 import VueAxios from 'vue-axios';
 
+import _ from 'lodash'
+
 import CoreuiVue from '@coreui/vue'
 import CIcon from '@coreui/icons-vue'
 import * as icons from '@coreui/icons';
 //import { iconsSet as icons } from '@/assets/icons'
+
+import CoreuiVueCharts from '@coreui/vue-chartjs'
 
 import Paginate from "vuejs-paginate-next";
 
@@ -31,8 +35,11 @@ app.use(VueAxios, axios)
 app.config.globalProperties.$moment = moment;
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
+app.use(CoreuiVueCharts)
 app.component('paginate', Paginate)
 app.use(VueSweetalert2);
+
+app.config.globalProperties.$_ = _;
 
 window.Swal =  app.config.globalProperties.$swal;
 window.Toast = Swal.mixin({

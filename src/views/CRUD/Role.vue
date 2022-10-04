@@ -1,14 +1,17 @@
 <template>
   <CContainer fluid>
     <CRow>
+      <CCol class="mb-1 pt-1 pb-1 bg-white d-flex align-items-center" v-if="!flagEdit">
+        <CCardTitle class="ps-2 mb-0">Роль</CCardTitle>
+      </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex align-items-center" v-if="flagEdit">
-        <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
+        <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0">Редактирование Роли!</CCardTitle>
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
-        <CButton color="warning" class="me-3" @click="editInputsSection(getSection)">
+        <CButton color="warning" class="btn-white me-3" @click="editInputsSection(getSection)">
           <CIcon icon="cil-pencil"/>
         </CButton>
-        <CButton color="danger" @click="methodDelete(getSection.id)">
+        <CButton color="danger" class="btn-white" @click="methodDelete(getSection.id)">
           <CIcon icon="cil-trash"/>
         </CButton>
       </CCol>
@@ -23,31 +26,33 @@
     </CTableHead>
     <CTableBody color="light">
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id Роли</CTableHeaderCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id</CTableHeaderCell>
         <CTableDataCell class="text-one-line">{{ getSection.id }}</CTableDataCell>
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Название</CTableHeaderCell>
         <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.title }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
-          <CFormInput id="title" value="" aria-describedby="inputGroupPrepend" required
-                      v-model="state.title" placeholder="title"
+          <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.title" placeholder="title" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('title')"
                       @input="validateInput('title')"
                       :valid="validOrInvalidInput('title', true)"
-                      :invalid="validOrInvalidInput('title', false)"/>
+                      :invalid="validOrInvalidInput('title', false)"
+                      @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Slug</CTableHeaderCell>
         <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.slug }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
-          <CFormInput id="slug" aria-describedby="inputGroupPrepend" required
-                      v-model="state.slug" placeholder="slug"
+          <CFormTextarea id="slug" aria-describedby="inputGroupPrepend" required
+                      v-model="state.slug" placeholder="slug" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('slug')"
                       @input="validateInput('slug')"
                       :valid="validOrInvalidInput('slug', true)"
-                      :invalid="validOrInvalidInput('slug', false)"/>
+                      :invalid="validOrInvalidInput('slug', false)"
+                      @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
@@ -75,7 +80,8 @@
                          :feedbackInvalid="feedbackInvalidInput('description')"
                          @input="validateInput('description')"
                          :valid="validOrInvalidInput('description', true)"
-                         :invalid="validOrInvalidInput('description', false)"/>
+                         :invalid="validOrInvalidInput('description', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
@@ -92,7 +98,8 @@
                          :feedbackInvalid="feedbackInvalidInput('form')"
                          @input="validateInput('form')"
                          :valid="validOrInvalidInput('form', true)"
-                         :invalid="validOrInvalidInput('form', false)"/>
+                         :invalid="validOrInvalidInput('form', false)"
+                         @click="textAreaAdjust($event.target)" @keyup="textAreaAdjust($event.target)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>
@@ -109,8 +116,8 @@
 
       <CTableRow v-if="flagEdit">
         <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
-          <CButton color="secondary" class="me-3" @click="cancellationEdit">Отменить</CButton>
-          <CButton color="primary" type="button" @click="checkValidateEditInputs(state)">Изменить
+          <CButton color="secondary" class="btn-white me-3" @click="cancellationEdit">Отменить</CButton>
+          <CButton color="primary" type="button" class="btn-white" @click="checkValidateEditInputs(state)">Изменить
           </CButton>
         </CTableHeaderCell>
       </CTableRow>
