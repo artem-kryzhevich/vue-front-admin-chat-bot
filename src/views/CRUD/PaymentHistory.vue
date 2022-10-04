@@ -1,6 +1,11 @@
 <template>
   <CContainer fluid>
     <CRow>
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+        {{$router.currentRoute.value.name + " - " + $router.currentRoute.value.params.id }}
+      </CCol>
+    </CRow>
+    <CRow>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex align-items-center" v-if="flagEdit">
         <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
       </CCol>
@@ -23,13 +28,12 @@
     </CTableHead>
     <CTableBody color="light">
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id</CTableHeaderCell>
-        <CTableDataCell class="text-one-line">{{ getSection.id }}</CTableDataCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">ID</CTableHeaderCell>
+        <CTableDataCell>{{ getSection.id }}</CTableDataCell>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">item_id</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.item_id }}
-        </CTableDataCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">ID Товара</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit"><a :href="'/items/'+getSection.item_id">{{ getSection.item_id }}</a></CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormInput id="item_id" value="" aria-describedby="inputGroupPrepend"
                       v-model="state.item_id" placeholder="item_id"
@@ -40,9 +44,12 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">user_id</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.user_id }}
-        </CTableDataCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Название Товара</CTableHeaderCell>
+        <CTableDataCell>{{ getSection.item_title }}</CTableDataCell>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">ID Пользователя</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit"><a :href="'/users/'+getSection.user_id">{{ getSection.user_id }}</a></CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormInput id="user_id" value="" aria-describedby="inputGroupPrepend"
                       v-model="state.user_id" placeholder="user_id"
@@ -53,8 +60,12 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">expiration_date</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ $moment(getSection.expiration_date).format('LL') }}
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">ФИО Пользователя</CTableHeaderCell>
+        <CTableDataCell>{{ getSection.user_title }}</CTableDataCell>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Дата окончания</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ $moment(getSection.expiration_date).format('LL') }}
         </CTableDataCell>
           <Datepicker v-if="flagEdit" locale="ru" :enableTimePicker="false" :format="'dd.MM.yyyy'" monthNameFormat="long"
                       :clearable="false" selectText="Выбрать" cancelText="Закрыть" v-model="state.expiration_date"
@@ -73,7 +84,7 @@
       </CTableRow>
 
       <CTableRow v-if="flagEdit">
-        <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
+        <CTableHeaderCell  colspan="2" class="text-end" v-bind:style="'width: 250px'">
           <CButton color="secondary" class="btn-white me-3" @click="cancellationEdit">Отменить</CButton>
           <CButton color="primary" type="button" class="btn-white" @click="checkValidateEditInputs(state)">Изменить
           </CButton>

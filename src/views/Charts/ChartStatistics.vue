@@ -34,7 +34,7 @@
             <CRow v-if="nameComponent.name === 'chartsDataUserId'">
               <CCol xs="12" sm="8" md="6" lg="4" xl="4" xxl="3" class="mb-2">
                 <CFormLabel for="user_id">ID Пользователя - {{getSelectedUserId !== null ? getSelectedUserId : null}}</CFormLabel>
-                <CInputGroup class="has-validation">
+                <CInputGroup v-if="paramUser === true" class="has-validation">
                   <CFormInput id="user_id" aria-describedby="inputGroupPrepend" required
                               onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ?
                               null : event.charCode >= 48 && event.charCode <= 57"
@@ -115,7 +115,7 @@ export default {
   name: "ChartStatistics",
   components: {CChart},
   props: ['nameComponent', 'chartsData', 'chartsDataTitle', 'chartsLoader', 'updateChartsData',
-    'chartsButtons', 'updateChartsButtons', 'updateChartsSelect'],
+    'chartsButtons', 'updateChartsButtons', 'updateChartsSelect', 'paramUser'],
   data() {
     return {
       defaultData: {},
@@ -157,7 +157,6 @@ export default {
         return this.chartsButtons.default
       },
       set(value) {
-        console.log(value)
         this.chartsButtons.default = value
         this.updateChartsButtons('default', this.nameComponent.name)
         this.updateChartsSelect('default',
@@ -169,7 +168,6 @@ export default {
         return this.chartsButtons.month
       },
       set(value) {
-        console.log(value)
         this.chartsButtons.month = value
         this.updateChartsButtons('month', this.nameComponent.name)
         this.updateChartsSelect('month',
@@ -181,7 +179,6 @@ export default {
         return this.chartsButtons.year
       },
       set(value) {
-        console.log(value)
         this.chartsButtons.year = value
         this.updateChartsButtons('year', this.nameComponent.name)
         this.updateChartsSelect('year',

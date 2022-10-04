@@ -11,7 +11,7 @@ import statistics from "@/store/modules/statistics";
 
 export default createStore({
   state: {
-    sidebarVisible: '',
+    sidebarVisible: true,
     sidebarUnfoldable: false
   },
   mutations: {

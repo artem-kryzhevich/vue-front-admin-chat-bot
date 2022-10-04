@@ -38,7 +38,11 @@ export default {
         getKeysData() {
             if (this.getData.length > 0) {
                 return Object.keys(this.getData[0]).filter( (f) => {
-                    return f !== 'created_at' && f !== 'deleted_at' && f !== 'updated_at'
+                    return f !== 'created_at'
+                        && f !== 'deleted_at'
+                        && f !== 'updated_at'
+                        && f !== 'item_title'
+                        && f !== 'user_title'
                 })
             }
         }

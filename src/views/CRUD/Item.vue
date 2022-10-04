@@ -1,6 +1,14 @@
 <template>
   <CContainer fluid>
     <CRow>
+      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+        {{ getSection.title !== null && getSection.title !== '' && getSection.title !== undefined ?
+          $router.currentRoute.value.name + " - " + getSection.title :
+          $router.currentRoute.value.name + " - " + $router.currentRoute.value.params.id
+        }}
+      </CCol>
+    </CRow>
+    <CRow>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex align-items-center" v-if="flagEdit">
         <CIcon icon="cil-warning"/><CCardTitle class="ps-2 mb-0"> Редактирование!</CCardTitle>
       </CCol>
@@ -23,12 +31,12 @@
     </CTableHead>
     <CTableBody color="light">
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">id</CTableHeaderCell>
-        <CTableDataCell class="text-one-line">{{ getSection.id }}</CTableDataCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">ID</CTableHeaderCell>
+        <CTableDataCell>{{ getSection.id }}</CTableDataCell>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Имя</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.title }}
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Название</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ getSection.title }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend" required
@@ -41,8 +49,8 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Slug</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.slug }}
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Кодовое слово</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ getSection.slug }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="slug" value="" aria-describedby="inputGroupPrepend" required
@@ -55,8 +63,8 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.price }}
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена (руб.)</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ getSection.price }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormInput id="price" value="" aria-describedby="inputGroupPrepend" required
@@ -69,8 +77,7 @@
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Описание</CTableHeaderCell>
-        <CTableDataCell class="text-one-line"
-                        :style="!getSection.description ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
+        <CTableDataCell :style="!getSection.description ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
                         v-if="!flagEdit">{{ getSection.description ? getSection.description : 'Не заданно' }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
@@ -85,8 +92,7 @@
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Период</CTableHeaderCell>
-        <CTableDataCell class="text-one-line"
-                        :style="!getSection.duration ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
+        <CTableDataCell :style="!getSection.duration ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'"
                         v-if="!flagEdit">{{ getSection.duration ? minutesToTimeStruct(getSection.duration) : 'Не заданно' }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
@@ -102,12 +108,12 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Покупка несколько раз</CTableHeaderCell>
-        <CTableDataCell class="text-one-line" v-if="!flagEdit">{{ getSection.can_buy_muliple_times }}
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Многоразовая покупка</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ getSection.can_buy_muliple_times === true ? 'Да' : 'Нет'}}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormSwitch id="can_buy_muliple_times" aria-describedby="inputGroupPrepend"
-                       v-model="state.can_buy_muliple_times" label="Выключите свитч, если не нужна возможность покупать несколько раз!"
+                       v-model="state.can_buy_muliple_times" label="Выключите, если не нужна многоразовая покупка!"
                        @change="validateInput('can_buy_muliple_times')"
                        :valid="validOrInvalidInput('can_buy_muliple_times', true)"
                        :invalid="validOrInvalidInput('can_buy_muliple_times', false)"/>
@@ -115,7 +121,7 @@
       </CTableRow>
 
       <CTableRow v-if="flagEdit">
-        <CTableHeaderCell  colspan="2" class="text-one-line text-end" v-bind:style="'width: 250px'">
+        <CTableHeaderCell  colspan="2" class="text-end" v-bind:style="'width: 250px'">
           <CButton color="secondary" class="btn-white me-3" @click="cancellationEdit">Отменить</CButton>
           <CButton color="primary" class="btn-white" type="button" @click="checkValidateEditInputs(state)">Изменить
           </CButton>

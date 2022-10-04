@@ -5,19 +5,14 @@
     </CModalHeader>
     <CModalBody>
       <CCol xs="12">
-        <CFormLabel for="run_time">run_time</CFormLabel>
+        <CFormLabel for="run_time">Дата и время рассылки</CFormLabel>
         <Datepicker locale="ru" :enableSeconds="true" :format="'dd.MM.yyyy HH:mm:ss'" monthNameFormat="long"
                     :minDate="new Date()" :clearable="false" selectText="Выбрать" cancelText="Закрыть"
                     v-model="state.run_time" @update:modelValue="validateInput('run_time')">
           <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
             <CInputGroup class="has-validation mb-3">
-              <CTooltip content="Unix время формата UTC-0, когда будет совершена рассылка" placement="bottom">
-                <template #toggler="{ on }">
-                  <CButton color="info" variant="outline" v-on="on">
-                    <CIcon icon="cil-info"/>
-                  </CButton>
-                </template>
-              </CTooltip>
+              <tooltip-info-content :content="'Время формата UTC-0, когда будет совершена рассылка.'">
+              </tooltip-info-content>
               <CFormInput id="run_time" aria-describedby="inputGroupPrepend" required
                           placeholder="Время рассылки"
                           :feedbackInvalid="feedbackInvalidInput('run_time')"
@@ -29,18 +24,10 @@
         </Datepicker>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="users-0">users</CFormLabel>
+        <CFormLabel for="users-0">Пользователи</CFormLabel>
         <CInputGroup class="has-validation mb-3" v-for="(user, index) in state.users" :key="index">
-          <CTooltip
-              v-if="index === 0"
-              content="Список ID пользователей, которым будет рассылка. Чтобы отправить всем, оставьте список пустым"
-              placement="bottom">
-            <template #toggler="{ on }">
-              <CButton color="info" variant="outline" v-on="on">
-                <CIcon icon="cil-info"/>
-              </CButton>
-            </template>
-          </CTooltip>
+          <tooltip-info-content v-if="index === 0" :content="'Список ID пользователей, которым будет рассылка. ' +
+           'Чтобы отправить всем, оставьте список пустым. Type: Integer'"></tooltip-info-content>
           <CFormInput :id="'users-'+index" aria-describedby="inputGroupPrepend-users"
                       v-model="state.users[index][0]" placeholder="ID пользователя"
                       :feedbackInvalid="feedbackInvalidInput('users', index)"
@@ -56,15 +43,10 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="text">text</CFormLabel>
+        <CFormLabel for="text">Текст рассылки</CFormLabel>
         <CInputGroup class="has-validation mb-3">
-          <CTooltip content="Отправляемый текст сообщения рассылки." placement="bottom">
-            <template #toggler="{ on }">
-              <CButton color="info" variant="outline" v-on="on">
-                <CIcon icon="cil-info"/>
-              </CButton>
-            </template>
-          </CTooltip>
+          <tooltip-info-content :content="'Отправляемый текст сообщения рассылки. Type: String. ' +
+           'Максимальная длина 4096 символов'"></tooltip-info-content>
           <CFormTextarea id="text" aria-describedby="inputGroupPrepend"
                          v-model="state.text" placeholder="Текст сообщения рассылки" rows="3"
                          :feedbackInvalid="feedbackInvalidInput('text')"
@@ -75,18 +57,11 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="videos-0">videos</CFormLabel>
+        <CFormLabel for="videos-0">ID Видео-файлов</CFormLabel>
         <CInputGroup class="has-validation mb-3" v-for="(video, index) in state.videos" :key="index">
-          <CTooltip
-              v-if="index === 0"
-              content="Список files_id видео-файлов, которые будут прикреплены к сообщению."
-              placement="bottom">
-            <template #toggler="{ on }">
-              <CButton color="info" variant="outline" v-on="on">
-                <CIcon icon="cil-info"/>
-              </CButton>
-            </template>
-          </CTooltip>
+          <tooltip-info-content  v-if="index === 0"
+                                 :content="'Список files_id видео-файлов, которые будут прикреплены к сообщению. ' +
+           'Type: String. Максимальное количество видео-файлов - 10 штук'"></tooltip-info-content>
           <CFormInput :id="'videos-'+index" aria-describedby="inputGroupPrepend-videos"
                       v-model="state.videos[index][0]" placeholder="ID видео-файла"
                       :feedbackInvalid="feedbackInvalidInput('videos', index)"
@@ -102,18 +77,11 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="photos-0">photos</CFormLabel>
+        <CFormLabel for="photos-0">ID Изображений</CFormLabel>
         <CInputGroup class="has-validation mb-3" v-for="(photo, index) in state.photos" :key="index">
-          <CTooltip
-              v-if="index === 0"
-              content="Список files_id изображений, которые будут прикреплены к сообщению."
-              placement="bottom">
-            <template #toggler="{ on }">
-              <CButton color="info" variant="outline" v-on="on">
-                <CIcon icon="cil-info"/>
-              </CButton>
-            </template>
-          </CTooltip>
+          <tooltip-info-content  v-if="index === 0"
+                                 :content="'Список files_id изображений, которые будут прикреплены к сообщению. ' +
+           'Type: String. Максимальное количество изображений - 10 штук'"></tooltip-info-content>
           <CFormInput :id="'photos-'+index" aria-describedby="inputGroupPrepend-photos"
                       v-model="state.photos[index][0]" placeholder="ID изображения"
                       :feedbackInvalid="feedbackInvalidInput('photos', index)"
@@ -131,15 +99,9 @@
       <CCol xs="12">
         <CFormLabel for="role_id">Роль</CFormLabel>
         <CInputGroup class="has-validation mb-3">
-          <CTooltip
-              content="Рассылка всем пользователям роли по ID. Чтобы не учитывалась роль - оставьте это поле пустым"
-              placement="bottom">
-            <template #toggler="{ on }">
-              <CButton color="info" variant="outline" v-on="on">
-                <CIcon icon="cil-info"/>
-              </CButton>
-            </template>
-          </CTooltip>
+          <tooltip-info-content :content="'Рассылка всем пользователям роли по ID. ' +
+           'Чтобы не учитывалась роль - оставьте это поле пустым. Рассылка всем пользователям без роли - 0. Type: Integer'">
+          </tooltip-info-content>
           <CFormSelect id="role_id" aria-describedby="inputGroupPrepend" required
                        v-model="state.role_id"
                        :feedbackInvalid="feedbackInvalidInput('role_id')"
@@ -166,12 +128,13 @@
 import Datepicker from "@vuepic/vue-datepicker";
 import '@vuepic/vue-datepicker/dist/main.css'
 import {state} from "@/mixins/vuelidateNotify";
+import TooltipInfoContent from "@/components/TooltipInfoContent";
 
 export default {
   name: "Notify_modal",
   props: ['state', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal', 'closeModal',
     'validateInput', 'validOrInvalidInput', 'feedbackInvalidInput', 'getRoles', 'checkValidateModal'],
-  components: {Datepicker},
+  components: {TooltipInfoContent, Datepicker},
   methods: {
     textAreaAdjust(element) {
       element.style.height = "1px";

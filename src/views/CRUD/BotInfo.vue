@@ -31,13 +31,13 @@
     </CTableHead>
     <CTableBody color="light">
       <CTableRow>
-        <CTableHeaderCell scope="row">start</CTableHeaderCell>
-        <CTableHeaderCell scope="row">text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Приветствие</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.start.text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="start_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.start.text" placeholder="start text" rows="5"
+                         v-model="state.start.text" placeholder="..." rows="5"
                          :feedbackInvalid="feedbackInvalidInput('start', 'text')"
                          @input="validateInput('start', 'text')"
                          :valid="validOrInvalidInput('start', true, 'text')"
@@ -47,12 +47,12 @@
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
-        <CTableHeaderCell scope="row">tutorial_video</CTableHeaderCell>
+        <CTableHeaderCell scope="row">File ID обучающего видео</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.start.tutorial_video }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="start_tutorial_video" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.start.tutorial_video" placeholder="start tutorial_video" rows="2"
+                         v-model="state.start.tutorial_video" placeholder="..." rows="2"
                          :feedbackInvalid="feedbackInvalidInput('start', 'tutorial_video')"
                          @input="validateInput('start', 'tutorial_video')"
                          :valid="validOrInvalidInput('start', true, 'tutorial_video')"
@@ -61,13 +61,13 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row">missions</CTableHeaderCell>
-        <CTableHeaderCell scope="row">text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Миссия</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.missions.text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="missions_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.missions.text" placeholder="missions text" rows="5"
+                         v-model="state.missions.text" placeholder="..." rows="5"
                          :feedbackInvalid="feedbackInvalidInput('missions', 'text')"
                          @input="validateInput('missions', 'text')"
                          :valid="validOrInvalidInput('missions', true, 'text')"
@@ -78,14 +78,14 @@
       <template v-for="(button, index) in getBotInfo.missions.buttons">
         <CTableRow>
           <CTableHeaderCell scope="row"></CTableHeaderCell>
-          <CTableHeaderCell scope="row" v-if="index === 0">buttons</CTableHeaderCell>
+          <CTableHeaderCell scope="row" v-if="index === 0">Кнопки</CTableHeaderCell>
           <CTableHeaderCell scope="row" v-else></CTableHeaderCell>
-          <CTableHeaderCell scope="row">text</CTableHeaderCell>
+          <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
           <CTableDataCell v-if="!flagEdit">{{ button.text }}</CTableDataCell>
           <CInputGroup class="has-validation" v-if="flagEdit">
             <CFormTextarea :id="'missions_buttons_'+index+'_text'" value="" aria-describedby="inputGroupPrepend"
                            v-model="state.missions.buttons[index].text"
-                           :placeholder="'missions buttons ' + index + ' text'" rows="1"
+                           placeholder="..." rows="1"
                            :feedbackInvalid="feedbackInvalidInput('missions', 'buttons', 'text', index)"
                            @input="validateInput('missions', 'buttons', 'text', index)"
                            :valid="validOrInvalidInput('missions', true, 'buttons', 'text', index)"
@@ -96,12 +96,12 @@
         <CTableRow>
           <CTableHeaderCell scope="row"></CTableHeaderCell>
           <CTableHeaderCell scope="row"></CTableHeaderCell>
-          <CTableHeaderCell scope="row">url</CTableHeaderCell>
+          <CTableHeaderCell scope="row">Ссылка</CTableHeaderCell>
           <CTableDataCell v-if="!flagEdit">{{ button.url }}</CTableDataCell>
           <CInputGroup class="has-validation" v-if="flagEdit">
             <CFormTextarea :id="'missions_buttons_'+index+'_url'" value="" aria-describedby="inputGroupPrepend"
                            v-model="state.missions.buttons[index].url"
-                           :placeholder="'missions buttons ' + index + ' url'" rows="1"
+                           placeholder="..." rows="1"
                            :feedbackInvalid="feedbackInvalidInput('missions', 'buttons', 'url', index)"
                            @input="validateInput('missions', 'buttons', 'url', index)"
                            :valid="validOrInvalidInput('missions', true, 'buttons', 'url', index)"
@@ -111,13 +111,13 @@
         </CTableRow>
       </template>
       <CTableRow>
-        <CTableHeaderCell scope="row">statuses</CTableHeaderCell>
-        <CTableHeaderCell scope="row">text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Статусы</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.statuses.text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="statuses_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.statuses.text" placeholder="statuses text" rows="5"
+                         v-model="state.statuses.text" placeholder="..." rows="5"
                          :feedbackInvalid="feedbackInvalidInput('statuses', 'text')"
                          @input="validateInput('statuses', 'text')"
                          :valid="validOrInvalidInput('statuses', true, 'text')"
@@ -126,13 +126,13 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row">thematic_channels</CTableHeaderCell>
-        <CTableHeaderCell scope="row">text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Тематические каналы</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.thematic_channels.text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="thematic_channels_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.thematic_channels.text" placeholder="thematic_channels text" rows="5"
+                         v-model="state.thematic_channels.text" placeholder="..." rows="5"
                          :feedbackInvalid="feedbackInvalidInput('thematic_channels', 'text')"
                          @input="validateInput('thematic_channels', 'text')"
                          :valid="validOrInvalidInput('thematic_channels', true, 'text')"
@@ -142,12 +142,12 @@
       </CTableRow>
       <CTableRow>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
-        <CTableHeaderCell scope="row">goals_text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст цели</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.thematic_channels.goals_text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="thematic_channels_goals_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.thematic_channels.goals_text" placeholder="thematic_channels goals_text"
+                         v-model="state.thematic_channels.goals_text" placeholder="..."
                          rows="5"
                          :feedbackInvalid="feedbackInvalidInput('thematic_channels', 'goals_text')"
                          @input="validateInput('thematic_channels', 'goals_text')"
@@ -157,13 +157,13 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row">invalid_access</CTableHeaderCell>
-        <CTableHeaderCell scope="row">text</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Ошибка доступа</CTableHeaderCell>
+        <CTableHeaderCell scope="row">Текст</CTableHeaderCell>
         <CTableHeaderCell scope="row"></CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getBotInfo.invalid_access.text }}</CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
           <CFormTextarea id="invalid_access_text" value="" aria-describedby="inputGroupPrepend"
-                         v-model="state.invalid_access.text" placeholder="invalid_access text" rows="1"
+                         v-model="state.invalid_access.text" placeholder="..." rows="1"
                          :feedbackInvalid="feedbackInvalidInput('invalid_access', 'text')"
                          @input="validateInput('invalid_access', 'text')"
                          :valid="validOrInvalidInput('invalid_access', true, 'text')"

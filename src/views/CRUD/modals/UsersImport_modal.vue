@@ -1,14 +1,25 @@
 <template>
   <CModal alignment="center" scrollable :visible="modalImportOpen" @close="closeImportModal(iv$, importState)">
     <CModalHeader>
-      <CModalTitle>Импорт пользователей</CModalTitle>
+      <CModalTitle>Импорт пользователей </CModalTitle>
     </CModalHeader>
     <CModalBody>
       <upload-excel-component :on-success="handleSuccess" :importState="importState" :iv$="iv$"/>
     </CModalBody>
-    <CModalFooter>
-      <CButton color="secondary" class="btn-white" @click="closeImportModal(iv$, importState)">Отмена</CButton>
+    <CModalFooter class="justify-content-between">
+      <CTooltip :content="'Для удачного импорта пользователей файл excel должен ' +
+       'содержать следующие заголовки: tg_id, first_name, phone_number, date_of_payment, subscribe_end_date, role'"
+                placement="bottom">
+        <template #toggler="{ on }">
+          <CButton class="justify-content-start" color="info" variant="outline" v-on="on">
+            <CIcon icon="cil-info"/>
+          </CButton>
+        </template>
+      </CTooltip>
+      <div>
+      <CButton color="secondary" class="btn-white me-3" @click="closeImportModal(iv$, importState)">Отмена</CButton>
       <CButton color="primary" type="button" class="btn-white" @click="checkValidateImportModal(importState)">Загрузить</CButton>
+      </div>
     </CModalFooter>
   </CModal>
 </template>
@@ -19,11 +30,12 @@ import {getCurrentInstance, reactive, toRaw} from "vue";
 import {helpers, maxLength, required} from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core/dist/index.esm";
 import EventBus from "@/common/EventBus";
+import TooltipInfoContent from "@/components/TooltipInfoContent";
 
 export default {
   name: "UsersImport_modal",
   props: ['modalImportOpen', 'closeImportModal', 'openImportModal'],
-  components: {UploadExcelComponent},
+  components: {TooltipInfoContent, UploadExcelComponent},
   setup() {
     const internalInstance = getCurrentInstance()
 

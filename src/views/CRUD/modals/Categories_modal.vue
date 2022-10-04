@@ -7,6 +7,7 @@
       <CCol xs="12">
         <CFormLabel for="title">Название</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 100 символов'"></tooltip-info-content>
           <CFormTextarea id="title" value="" aria-describedby="inputGroupPrepend" required
                       v-model="state.title" placeholder="title" rows="2"
                       :feedbackInvalid="feedbackInvalidInput('title')"
@@ -17,8 +18,9 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="slug">Slug</CFormLabel>
+        <CFormLabel for="slug">Кодовое слово</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 15 символов'"></tooltip-info-content>
           <CFormInput id="slug" aria-describedby="inputGroupPrepend" required
                       v-model="state.slug" placeholder="slug"
                       :feedbackInvalid="feedbackInvalidInput('slug')"
@@ -28,8 +30,9 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="channel_tg_id">id Канала</CFormLabel>
+        <CFormLabel for="channel_tg_id">ID Канала</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 20 символов'"></tooltip-info-content>
           <CFormInput id="channel_tg_id" aria-describedby="inputGroupPrepend" required
                       v-model="state.channel_tg_id" placeholder="channel_tg_id"
                       :feedbackInvalid="feedbackInvalidInput('channel_tg_id')"
@@ -39,8 +42,9 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="channel_url">Ссылка на канал</CFormLabel>
+        <CFormLabel for="channel_url">Ссылка на Канал</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 100 символов'"></tooltip-info-content>
           <CFormTextarea id="channel_url" aria-describedby="inputGroupPrepend" required
                          v-model="state.channel_url" placeholder="channel_url" rows="2"
                          :feedbackInvalid="feedbackInvalidInput('channel_url')"
@@ -53,6 +57,7 @@
       <CCol xs="12">
         <CFormLabel for="emoji">Эмодзи</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 25 символов'"></tooltip-info-content>
           <CFormInput id="emoji" aria-describedby="inputGroupPrepend" required
                       v-model="state.emoji" placeholder="emoji"
                       :feedbackInvalid="feedbackInvalidInput('emoji')"
@@ -62,8 +67,9 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="private_channel_tg_id">id Приватного канала</CFormLabel>
+        <CFormLabel for="private_channel_tg_id">ID приватного Канала</CFormLabel>
         <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: String. Максимальная длина 20 символов'"></tooltip-info-content>
           <CFormInput id="private_channel_tg_id" aria-describedby="inputGroupPrepend" required
                       v-model="state.private_channel_tg_id" placeholder="private_channel_tg_id"
                       :feedbackInvalid="feedbackInvalidInput('private_channel_tg_id')"
@@ -82,8 +88,10 @@
 </template>
 
 <script>
+import TooltipInfoContent from "@/components/TooltipInfoContent";
 export default {
   name: "Categories_modal",
+  components: {TooltipInfoContent},
   props: ['state', 'modalOpen', 'modalTitle', 'modalButton', 'flagModal',
     'checkValidateModal', 'closeModal', 'validOrInvalidInput', 'feedbackInvalidInput', 'validateInput', 'textAreaAdjust'],
 }

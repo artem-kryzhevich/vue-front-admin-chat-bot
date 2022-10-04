@@ -30,7 +30,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id
+                          @click="passingASortingParameter('id')">ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'first_name' ? 'sorted' : ''"
@@ -50,7 +50,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'tg_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('tg_id')">Telegram id
+                          @click="passingASortingParameter('tg_id')">Telegram ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'role_id' ? 'sorted' : ''"

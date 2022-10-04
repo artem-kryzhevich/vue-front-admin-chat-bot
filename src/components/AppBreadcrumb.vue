@@ -23,7 +23,6 @@ export default {
       const breadcrumbs = router.currentRoute.value.matched.map((route) => {
         if(route.name !== null && route.name !== "" && route.name !== undefined) {
           return {
-            //active: route.path === router.currentRoute.value.fullPath,
             name: route.name,
             param: router.currentRoute.value.params[Object.keys(router.currentRoute.value.params)[Object.keys(router.currentRoute.value.params).length - 1]],
             path: `${router.options.history.base}${route.path}`,

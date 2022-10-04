@@ -31,12 +31,12 @@
       <template v-for="(my_items, my_keys, my_index) in getEvent">
         <template v-if="typeof my_items !== 'object'">
           <CTableRow :key="my_keys">
-            <CTableHeaderCell colspan="4" scope="row">{{ my_keys }}</CTableHeaderCell>
+            <CTableHeaderCell colspan="4" scope="row">{{ ObjectTitleKeys[my_keys] }}</CTableHeaderCell>
             <CTableDataCell v-if="!flagEdit && my_keys !== 'date'">{{ my_items }}</CTableDataCell>
             <CTableDataCell v-if="!flagEdit && my_keys === 'date'">{{ $moment(my_items).format('LL') }}</CTableDataCell>
             <CInputGroup class="has-validation" v-if="flagEdit && my_keys !== 'date'">
               <CFormTextarea :id="my_keys" value="" aria-describedby="inputGroupPrepend"
-                             v-model="state[my_keys]" :placeholder="my_keys"
+                             v-model="state[my_keys]" placeholder="..."
                              :feedbackInvalid="feedbackInvalidInput(my_keys)"
                              @input="validateInput(my_keys)"
                              :valid="validOrInvalidInput(my_keys, true)"
@@ -50,7 +50,7 @@
               <template #dp-input="{ value, onInput, onEnter, onTab, onClear }">
                 <CInputGroup class="has-validation">
                   <CFormInput :id="my_keys" aria-describedby="inputGroupPrepend" required
-                              :placeholder="my_keys"
+                              placeholder="..."
                               :feedbackInvalid="feedbackInvalidInput(my_keys)"
                               @input="validateInput(my_keys)"
                               :valid="validOrInvalidInput(my_keys, true)"
@@ -64,12 +64,12 @@
           <template v-for="(items, keys, index) in my_items">
             <template v-if="typeof items !== 'object'">
               <CTableRow :key="my_keys+'_'+keys">
-                <CTableHeaderCell scope="row">{{ my_keys }}</CTableHeaderCell>
-                <CTableHeaderCell colspan="3" scope="row">{{ keys }}</CTableHeaderCell>
+                <CTableHeaderCell scope="row">{{ ObjectTitleKeys[my_keys] }}</CTableHeaderCell>
+                <CTableHeaderCell colspan="3" scope="row">{{ ObjectTitleKeys[keys] }}</CTableHeaderCell>
                 <CTableDataCell v-if="!flagEdit">{{ items }}</CTableDataCell>
                 <CInputGroup class="has-validation" v-if="flagEdit">
                   <CFormTextarea :id="my_keys+'_'+keys" value="" aria-describedby="inputGroupPrepend"
-                                 v-model="state[my_keys][keys]" :placeholder="my_keys+' '+keys"
+                                 v-model="state[my_keys][keys]" placeholder="..."
                                  :feedbackInvalid="feedbackInvalidInput(my_keys, keys)"
                                  @input="validateInput(my_keys, keys)"
                                  :valid="validOrInvalidInput(my_keys, true, keys)"
@@ -83,21 +83,21 @@
                 <template v-if="typeof item !== 'object'">
                   <CTableRow :key="my_keys+'_'+keys+'_'+key">
                     <template v-if="keys === 0 && ind === 0">
-                      <CTableHeaderCell scope="row">{{ my_keys }}</CTableHeaderCell>
+                      <CTableHeaderCell scope="row">{{ ObjectTitleKeys[my_keys] }}</CTableHeaderCell>
                       <CTableHeaderCell scope="row" class="text-end" colspan="2">{{Number(keys) + 1}}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row" class="text-end">{{ key }}</CTableHeaderCell>
+                      <CTableHeaderCell scope="row" class="text-end">{{ ObjectTitleKeys[key] }}</CTableHeaderCell>
                     </template>
                     <template v-else-if="ind === 0">
                       <CTableHeaderCell scope="row" class="text-end" colspan="3">{{Number(keys) + 1}}</CTableHeaderCell>
-                      <CTableHeaderCell scope="row" class="text-end">{{ key }}</CTableHeaderCell>
+                      <CTableHeaderCell scope="row" class="text-end">{{ ObjectTitleKeys[key] }}</CTableHeaderCell>
                     </template>
                     <template v-else>
-                      <CTableHeaderCell scope="row" class="text-end" colspan="4">{{ key }}</CTableHeaderCell>
+                      <CTableHeaderCell scope="row" class="text-end" colspan="4">{{ ObjectTitleKeys[key] }}</CTableHeaderCell>
                     </template>
                     <CTableDataCell v-if="!flagEdit">{{ item }}</CTableDataCell>
                     <CInputGroup class="has-validation" v-if="flagEdit">
                       <CFormTextarea :id="my_keys+'_'+keys+'_'+key" value="" aria-describedby="inputGroupPrepend"
-                                     v-model="state[my_keys][keys][key]" :placeholder="my_keys+' '+keys+' '+key"
+                                     v-model="state[my_keys][keys][key]" placeholder="..."
                                      :feedbackInvalid="feedbackInvalidInput(my_keys, keys, key)"
                                      @input="validateInput(my_keys, keys, key)"
                                      :valid="validOrInvalidInput(my_keys, true, keys, key)"
@@ -112,21 +112,21 @@
                       <CTableRow :key="my_keys+'_'+keys+'_'+key+'_'+k">
                         <CTableHeaderCell scope="row" class="text-end"></CTableHeaderCell>
                         <template v-if="key === 0 && inx === 0">
-                          <CTableHeaderCell scope="row" class="text-end">{{ keys }}</CTableHeaderCell>
+                          <CTableHeaderCell scope="row" class="text-end">{{ ObjectTitleKeys[keys] }}</CTableHeaderCell>
                           <CTableHeaderCell scope="row" class="text-end">{{ Number(key) + 1 }}</CTableHeaderCell>
-                          <CTableHeaderCell scope="row" class="text-end">{{ k }}</CTableHeaderCell>
+                          <CTableHeaderCell scope="row" class="text-end">{{ ObjectTitleKeys[k] }}</CTableHeaderCell>
                         </template>
                         <template v-else-if="inx === 0">
                           <CTableHeaderCell scope="row" class="text-end" colspan="2">{{Number(key) + 1}}</CTableHeaderCell>
-                          <CTableHeaderCell scope="row">{{ k }}</CTableHeaderCell>
+                          <CTableHeaderCell scope="row">{{ ObjectTitleKeys[k] }}</CTableHeaderCell>
                         </template>
                         <template v-else>
-                          <CTableHeaderCell scope="row" class="text-end" colspan="3">{{ k }}</CTableHeaderCell>
+                          <CTableHeaderCell scope="row" class="text-end" colspan="3">{{ ObjectTitleKeys[k] }}</CTableHeaderCell>
                         </template>
                         <CTableDataCell v-if="!flagEdit">{{ i }}</CTableDataCell>
                         <CInputGroup class="has-validation" v-if="flagEdit">
                           <CFormTextarea :id="my_keys+'_'+keys+'_'+key+'_'+k" value="" aria-describedby="inputGroupPrepend"
-                                         v-model="state[my_keys][keys][key][k]" :placeholder="my_keys+' '+keys+' '+key+' '+k"
+                                         v-model="state[my_keys][keys][key][k]" placeholder="..."
                                          :feedbackInvalid="feedbackInvalidInput(my_keys, keys, key, k)"
                                          @input="validateInput(my_keys, keys, key, k)"
                                          :valid="validOrInvalidInput(my_keys, true, keys, key, k)"
@@ -172,6 +172,16 @@ export default {
   data() {
     return {
       flagEdit: false,
+      ObjectTitleKeys: {
+        title:'Название',
+        date: 'Дата',
+        description: 'Описание',
+        video_file_id: 'File ID видео',
+        buttons: 'Кнопки',
+        cities_meet: 'Встречи по городам',
+        text: 'Текст',
+        url: 'Ссылка'
+      },
     }
   },
   computed: {

@@ -7,7 +7,7 @@ const routes = [
     path: '/',
     name: 'Главная',
     component: DefaultLayout,
-    redirect: '/users',
+    redirect: '/statistics',
     children: [
       {
         path: '/users',

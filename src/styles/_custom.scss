@@ -65,6 +65,27 @@ table.table-fixed {
 .form-floating .form-label {
   top: -0.5rem !important;
 }
+
+.form-floating .form-label-duration {
+  top: -1rem !important;
+  z-index: 99;
+  padding-left: 50px;
+  font-weight: 700;
+  font-size: small;
+}
+.form-floating .form-input-duration::-webkit-input-placeholder {
+  color: rgb(163 168 176) !important;
+}
+.form-floating .form-input-duration:-moz-placeholder {
+  color: rgb(163 168 176) !important;
+}
+.form-floating .form-input-duration::-moz-placeholder {
+  color: rgb(163 168 176) !important;
+}
+.form-floating .form-input-duration:-ms-input-placeholder {
+  color: rgb(163 168 176) !important;
+}
+
 .table-responsive {
   margin-bottom: 1rem;
 }

@@ -1,12 +1,12 @@
 <template>
   <CContainer fluid>
-    <CRow v-for="obj in $router.currentRoute.value.matched">
-      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black"
-            v-if="$router.currentRoute.value.path === obj.path && obj.name !== ''">
-        {{ obj.name }}
-      </CCol>
-    </CRow>
     <CRow>
+      <template v-for="obj in $router.currentRoute.value.matched">
+        <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black"
+              v-if="$router.currentRoute.value.path === obj.path && obj.name !== ''">
+          {{ obj.name }}
+        </CCol>
+      </template>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
         <CButton color="success" @click="openAddModal" class="btn-white me-3">
           <CIcon icon="cil-plus"/>
@@ -18,12 +18,12 @@
   <CTable bordered hover responsive class="table-fixed mb-0" v-if="getNotify.length > 0">
     <CTableHead color="secondary">
       <CTableRow>
-        <CTableHeaderCell scope="col">id</CTableHeaderCell>
-        <CTableHeaderCell scope="col">run_time</CTableHeaderCell>
-        <CTableHeaderCell scope="col">videos</CTableHeaderCell>
-        <CTableHeaderCell scope="col">photos</CTableHeaderCell>
-        <CTableHeaderCell scope="col">users</CTableHeaderCell>
-        <CTableHeaderCell scope="col">text</CTableHeaderCell>
+        <CTableHeaderCell scope="col">ID</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Дата и время рассылки</CTableHeaderCell>
+        <CTableHeaderCell scope="col">ID Видео-файлов</CTableHeaderCell>
+        <CTableHeaderCell scope="col">ID Изображений</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Пользователи</CTableHeaderCell>
+        <CTableHeaderCell scope="col">Текст</CTableHeaderCell>
       </CTableRow>
     </CTableHead>
     <CTableBody color="light">

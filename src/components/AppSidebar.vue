@@ -12,17 +12,7 @@
     "
   >
     <CSidebarBrand>
-      <CImage fluid align="center" src="/logo.png" width="160"/>
-      <!--<CIcon
-        custom-class-name="sidebar-brand-full"
-        :icon="logoNegative"
-        :height="35"
-      />
-      <CIcon
-        custom-class-name="sidebar-brand-narrow"
-        :icon="sygnet"
-        :height="35"
-      />-->
+      <CImage fluid align="center" src="/icons/logo.png" width="160"/>
     </CSidebarBrand>
     <AppSidebarNav />
     <CSidebarToggler
@@ -34,10 +24,8 @@
 
 <script>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import {useStore} from 'vuex'
 import { AppSidebarNav } from './AppSidebarNav'
-//import { logoNegative } from '@/assets/brand/logo-negative'
-//import { sygnet } from '@/assets/brand/sygnet'
 
 export default {
   name: 'AppSidebar',
@@ -47,11 +35,9 @@ export default {
   setup() {
     const store = useStore()
     return {
-      //logoNegative,
-      //sygnet,
       sidebarUnfoldable: computed(() => store.state.sidebarUnfoldable),
       sidebarVisible: computed(() => store.state.sidebarVisible),
     }
-  },
+  }
 }
 </script>

@@ -94,5 +94,10 @@ export default {
         /** ********* **/
 
         await this.getAllSection(this.$route.params['id'])
+
+        if (this.$route.path === '/users/'+this.$route.params['id']) {
+            this.updateSelectedUserId(this.getSection.id)
+            this.getAllStatisticsUserId()
+        }
     }
 }

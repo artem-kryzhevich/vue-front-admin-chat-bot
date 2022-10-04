@@ -26,7 +26,8 @@
                      nameAll: 'getAllStatisticsMenu'
                    }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataUniqueUsers"
                    :chartsDataTitle="chartsLabels.chartsDataUniqueUsers"
@@ -38,7 +39,8 @@
                      nameAll: 'getAllStatisticsUniqueUsers'
                    }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataEndedSubs"
                    :chartsDataTitle="chartsLabels.chartsDataEndedSubs"
@@ -50,7 +52,8 @@
                      nameAll: 'getAllStatisticsEndedSubs'
                    }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataRenewedSubs"
                    :chartsDataTitle="chartsLabels.chartsDataRenewedSubs"
@@ -61,7 +64,8 @@
                      name: 'chartsDataRenewedSubs', nameGetter: 'getStatisticsRenewedSubs',
                      nameLabel: 'Обновлённые подписки', nameAll: 'getAllStatisticsRenewedSubs'}"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataPurchases"
                    :chartsDataTitle="chartsLabels.chartsDataPurchases"
@@ -73,7 +77,8 @@
                      nameAll: 'getAllStatisticsPurchases'
                    }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataPurchasesFromFunnel"
                    :chartsDataTitle="chartsLabels.chartsDataPurchasesFromFunnel"
@@ -84,7 +89,8 @@
                      name: 'chartsDataPurchasesFromFunnel', nameGetter: 'getStatisticsPurchasesFromFunnel',
                      nameLabel: 'Покупки с Бота-Воронки', nameAll: 'getAllStatisticsPurchasesFromFunnel' }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="paramUser"></ChartStatistics>
 
   <ChartStatistics :chartsData="chartsDataUserId"
                    :chartsDataTitle="chartsLabels.chartsDataUserId"
@@ -96,19 +102,22 @@
                      nameAll: 'getAllStatisticsUserId'
                    }"
                    :updateChartsButtons="updateChartsButtons"
-                   :updateChartsSelect="updateChartsSelect"></ChartStatistics>
+                   :updateChartsSelect="updateChartsSelect"
+                   :paramUser="true"></ChartStatistics>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 import ChartStatistics from "@/views/Charts/ChartStatistics";
-import EventBus from "@/common/EventBus";
+import statistics from "@/mixins/statistics";
 
 export default {
   name: "Statistics",
   components: {ChartStatistics},
+  mixins: [statistics],
   data() {
     return {
+      paramUser: false,
       chartsDataMenu: {},
       chartsDataUniqueUsers: {},
       chartsDataEndedSubs: {},
@@ -179,127 +188,6 @@ export default {
       'getStatisticsUserId', 'getSelectedUserId'])
   },
   methods: {
-    ...mapActions(['getAllStatistics']),
-    getAllStatistic(url, nameUpdate, nameData, nameGetter, label) {
-      this.chartsLoader[nameData] = false
-      this.getAllStatistics(url).then(
-          (response) => {
-            this.$store.commit(nameUpdate, response.data)
-            this.updateChartsData(nameData, nameGetter, label)
-            this.chartsLoader[nameData] = true
-          },
-          (error) => {
-            this.$store.commit('updateModalRequest', {data: 'error', text: 'Ошибка! Обновите блок - ' + label})
-            if (error.response && error.response.status === 403) {
-              EventBus.dispatch("logout");
-            }
-          }
-      )
-    },
-    updateChartsData(name, nameGetter, lab, count = 50) {
-      if (this.$store.getters[nameGetter].length !== 0) {
-        let array = this.$_.takeRight(this.$store.getters[nameGetter], count)
-        let labels = array.map((item) => {
-              let start = this.$moment(item.start_date).format('DD.MM')
-              let end = this.$moment(item.end_date).format('DD.MM')
-              return start + " - " + end
-            }
-        )
-        let value = array.map(item => item.value)
-        this[name] = {
-          labels: labels,
-          value: value,
-          label: lab
-        }
-      } else {
-        this[name] = {}
-      }
-    },
-
-    updateChartDataMonthYearValid(nameData, nameLabel, array) {
-      if (array.length !== 0) {
-        let labels = array.map((item) => {
-              let start = this.$moment(item.start_date).format('DD.MM')
-              let end = this.$moment(item.end_date).format('DD.MM')
-              return start + " - " + end
-            }
-        )
-        let value = array.map(item => item.value)
-        this[nameData] = {
-          labels: labels,
-          value: value,
-          label: nameLabel
-        }
-      } else {
-        this[nameData] = {}
-      }
-    },
-
-    updateChartDataMonthOrYear(nameData, nameGetter, nameLabel, select, format) {
-      let arr = this.$store.getters[nameGetter]
-      let array = arr.filter(item => {
-        if (this.$moment(item.start_date).format(format) === select ||
-            this.$moment(item.end_date).format(format) === select)
-          return item
-      })
-      this.updateChartDataMonthYearValid(nameData, nameLabel, array)
-    },
-
-    updateChartDataMonthAndYear(nameData, nameGetter, nameLabel, select, select2) {
-      let arr = this.$store.getters[nameGetter]
-      let array = arr.filter(item => {
-        if ((this.$moment(item.start_date).format('MM') === select ||
-                this.$moment(item.end_date).format('MM') === select) &&
-            (this.$moment(item.start_date).format('YYYY') === select2 ||
-                this.$moment(item.end_date).format('YYYY') === select2))
-          return item
-      })
-      this.updateChartDataMonthYearValid(nameData, nameLabel, array)
-    },
-
-    updateChartDataMonthYear(nameData, nameGetter, nameLabel, select = null, select2 = null) {
-      if (this.$store.getters[nameGetter].length !== 0) {
-        if (select !== null && select2 === null) {
-          this.updateChartDataMonthOrYear(nameData, nameGetter, nameLabel, select, 'MM')
-        } else if (select === null && select2 !== null) {
-          this.updateChartDataMonthOrYear(nameData, nameGetter, nameLabel, select2, 'YYYY')
-        } else if (select !== null && select2 !== null) {
-          this.updateChartDataMonthAndYear(nameData, nameGetter, nameLabel, select, select2)
-        }
-      }
-    },
-
-    updateChartsButtons(name, nameComponent) {
-      if (name === 'default') {
-        this.chartsButtons[nameComponent].month = false
-        this.chartsButtons[nameComponent].year = false
-      } else if (name === 'month') {
-        this.chartsButtons[nameComponent].default =
-            this.chartsButtons[nameComponent].year === false && this.chartsButtons[nameComponent].month === false;
-      } else if (name === 'year') {
-        this.chartsButtons[nameComponent].default =
-            this.chartsButtons[nameComponent].month === false && this.chartsButtons[nameComponent].year === false;
-      }
-    },
-    updateChartsSelect(name, nameData, nameGetter, nameLabel, select, select2, select3) {
-      if (this.chartsButtons[nameData].month === true && this.chartsButtons[nameData].year === false) {
-        this.updateChartDataMonthYear(nameData, nameGetter, nameLabel, select2)
-      } else if (this.chartsButtons[nameData].month === false && this.chartsButtons[nameData].year === true) {
-        this.updateChartDataMonthYear(nameData, nameGetter, nameLabel, null, select3)
-      } else if (this.chartsButtons[nameData].month === true && this.chartsButtons[nameData].year === true) {
-        this.updateChartDataMonthYear(nameData, nameGetter, nameLabel, select2, select3)
-      } else if (this.chartsButtons[nameData].month === false && this.chartsButtons[nameData].year === false) {
-        this.updateChartsData(nameData, nameGetter, nameLabel, select)
-      }
-    },
-
-    updateChartsButtonData(nameComponent, nameAll) {
-      this.chartsButtons[nameComponent].default = true
-      this.chartsButtons[nameComponent].month = false
-      this.chartsButtons[nameComponent].year = false
-      this[nameAll]()
-    },
-
     getAllStatisticsMenu() {
       this.getAllStatistic('/statistics/menu', 'updateStatisticsMenu', 'chartsDataMenu',
           'getStatisticsMenu', 'Уникальные переходы')

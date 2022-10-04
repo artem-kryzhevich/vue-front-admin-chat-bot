@@ -1,8 +1,13 @@
 <template>
   <CContainer fluid>
     <CRow>
-      <CCol class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+      <CCol v-if="getData.length <= 0"
+            class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
         {{ $router.currentRoute.value.name + " " + $router.currentRoute.value.params.id}}
+      </CCol>
+      <CCol v-if="getData.length > 0"
+            class="mb-1 pt-1 pb-1 fs-6 fw-bold bg-white d-flex justify-content-start align-items-center text-black">
+        {{ $router.currentRoute.value.name + " " + getData[0].user_title}}
       </CCol>
       <CCol class="mb-1 pt-1 pb-1 bg-white d-flex justify-content-end">
         <CButton color="success" @click="openAddModal" class="btn-white me-3">
@@ -18,22 +23,24 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id
+                          @click="passingASortingParameter('id')">ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'item_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('item_id')">item_id
+                          @click="passingASortingParameter('item_id')">ID Товара
         </CTableHeaderCell>
+        <CTableHeaderCell scope="col">Название Товара</CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'user_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('user_id')">user_id
+                          @click="passingASortingParameter('user_id')">ID Пользователя
         </CTableHeaderCell>
+        <CTableHeaderCell scope="col">ФИО Пользователя</CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'expiration_date' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('expiration_date')">expiration_date
+                          @click="passingASortingParameter('expiration_date')">Дата окончания
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
@@ -41,8 +48,10 @@
     <CTableBody color="light">
       <CTableRow v-for="(data, index) in getData" :key="index">
         <CTableDataCell class="text-one-line">{{ data.id }}</CTableDataCell>
-        <CTableDataCell class="text-one-line"><a :href="'/items/'+data.item_id">{{ data.item_id }}</a></CTableDataCell>
-        <CTableDataCell class="text-one-line"><a :href="'/users/'+data.user_id">{{ data.user_id }}</a></CTableDataCell>
+        <CTableDataCell class="text-one-line"><a :href="'/items/'+data.item_id">{{data.item_id}}</a></CTableDataCell>
+        <CTableDataCell class="text-one-line">{{ data.item_title }}</CTableDataCell>
+        <CTableDataCell class="text-one-line"><a :href="'/users/'+data.user_id">{{data.user_id}}</a></CTableDataCell>
+        <CTableDataCell class="text-one-line">{{ data.user_title }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ $moment(data.expiration_date).format('LL') }}</CTableDataCell>
         <CTableDataCell class="text-one-line align-text-center">
           <CButton color="info" class="btn-white me-3" @click="pushOnRouteId(data.id)">

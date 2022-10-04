@@ -27,7 +27,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id
+                          @click="passingASortingParameter('id')">ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
@@ -37,7 +37,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'slug' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('slug')">slug
+                          @click="passingASortingParameter('slug')">Кодовое слово
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'description' ? 'sorted' : ''"
@@ -57,7 +57,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'is_visible' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('is_visible')">Видимость
+                          @click="passingASortingParameter('is_visible')">Показывать?
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>

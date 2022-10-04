@@ -3,7 +3,7 @@
     <CContainer class="d-flex justify-content-center">
       <div class="wrap_login justify-content-center">
         <div class="d-flex justify-content-center w-100 js-tilt mb-3" data-tilt>
-          <CImage class="d-flex justify-content-center m-auto w-100" fluid src="/logo_black.png" />
+          <CImage class="d-flex justify-content-center m-auto w-100" fluid src="/icons/logo_black.png" />
         </div>
         <CForm class="w-100">
           <AppLogin></AppLogin>

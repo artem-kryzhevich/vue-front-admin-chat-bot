@@ -27,7 +27,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id
+                          @click="passingASortingParameter('id')">ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
@@ -37,17 +37,17 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'slug' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('slug')">Slug
+                          @click="passingASortingParameter('slug')">Кодовое слово
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'channel_tg_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('channel_tg_id')">id Канала
+                          @click="passingASortingParameter('channel_tg_id')">ID Канала
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'channel_url' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('channel_url')">url Канала
+                          @click="passingASortingParameter('channel_url')">Ссылка на Канал
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'emoji' ? 'sorted' : ''"
@@ -57,7 +57,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'private_channel_tg_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('private_channel_tg_id')">id_private Канала
+                          @click="passingASortingParameter('private_channel_tg_id')">ID приватного Канала
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>

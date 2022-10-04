@@ -27,7 +27,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">id
+                          @click="passingASortingParameter('id')">ID
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
@@ -37,7 +37,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'slug' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('slug')">slug
+                          @click="passingASortingParameter('slug')">Кодовое слово
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'price' ? 'sorted' : ''"
@@ -57,7 +57,7 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'can_buy_muliple_times' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('can_buy_muliple_times')">Возможность купить несколько раз
+                          @click="passingASortingParameter('can_buy_muliple_times')">Многоразовая покупка
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
