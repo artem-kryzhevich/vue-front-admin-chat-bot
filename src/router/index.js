@@ -216,7 +216,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/admin/'),
+  history: createWebHistory('/' + process.env.VUE_APP_PREFIX_BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 }
@@ -224,7 +224,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login'];
+  const publicPages = ['/login', '/404'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
   if (authRequired && !loggedIn) {

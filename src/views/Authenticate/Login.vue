@@ -6,7 +6,7 @@
           <CImage class="d-flex justify-content-center m-auto w-100" fluid src="/icons/logo_black.png" />
         </div>
         <CForm class="w-100">
-          <AppLogin></AppLogin>
+         <!-- <AppLogin></AppLogin> -->
           <CFormLabel for="tg_id" class="d-flex justify-content-center" v-bind:style="'font-weight: bold;'">Telegram ID</CFormLabel>
           <CFormInput placeholder="Введите telegram ID" id="tg_id" value="" aria-describedby="inputGroupPrepend"
                       v-model="state.tg_id"
