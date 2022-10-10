@@ -56,6 +56,7 @@
                               :value="String(count)" :key="index">{{ count }}
                       </option>
                     </CFormSelect>
+                  <tooltip-info-content :content="'Количество последних записей статистики'"></tooltip-info-content>
                 </CInputGroup>
               </CCol>
               <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="2">
@@ -69,6 +70,7 @@
                               :value="String(count)" :key="index">{{ count }}
                       </option>
                     </CFormSelect>
+                  <tooltip-info-content :content="'Статистика за месяц'"></tooltip-info-content>
                 </CInputGroup>
               </CCol>
               <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="2">
@@ -82,6 +84,7 @@
                               :value="String(count)" :key="index">{{ count }}
                       </option>
                     </CFormSelect>
+                  <tooltip-info-content :content="'Статистика за год'"></tooltip-info-content>
                 </CInputGroup>
               </CCol>
             </CRow>
@@ -110,10 +113,11 @@
 <script>
 import {CChart} from '@coreui/vue-chartjs'
 import {mapGetters, mapMutations} from "vuex";
+import TooltipInfoContent from "@/components/TooltipInfoContent";
 
 export default {
   name: "ChartStatistics",
-  components: {CChart},
+  components: {TooltipInfoContent, CChart},
   props: ['nameComponent', 'chartsData', 'chartsDataTitle', 'chartsLoader', 'updateChartsData',
     'chartsButtons', 'updateChartsButtons', 'updateChartsSelect', 'paramUser'],
   data() {
@@ -122,7 +126,8 @@ export default {
       loading: 0,
 
       selectedData: String('50'),
-      selectedMonth: String('01'),
+      selectedMonth: [... String(new Date().getUTCMonth() + 1)].length === 1
+          ? String(0) +  String(new Date().getUTCMonth() + 1) :  String(new Date().getUTCMonth() + 1),
       selectedYear: String(new Date().getFullYear()),
 
       getStatisticUserId: null

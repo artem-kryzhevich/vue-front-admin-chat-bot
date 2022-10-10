@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light min-vh-100 d-flex flex-row align-items-center bg_login">
+  <div class="bg-light min-vh-100 d-flex flex-row align-items-center bg_login" :style="'z-index: 9999'">
     <CContainer class="d-flex justify-content-center">
       <div class="wrap_login justify-content-center">
         <div class="d-flex justify-content-center w-100 js-tilt mb-3" data-tilt>
