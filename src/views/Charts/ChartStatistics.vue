@@ -10,8 +10,13 @@
                 <div class="small text-medium-emphasis"
                      v-if="chartsLoader === true && Object.keys(chartsData).length !== 0">
                   {{
-                    chartsData.labels[0].substr(0, 5) + " - " +
+                    chartsData.labels[0].substr(0, 5)
+                    + "." +
+                    chartsData.labels_years[0].substr(0, 4)
+                    + " - " +
                     chartsData.labels[chartsData.labels.length - 1].slice(-5)
+                    + "." +
+                    chartsData.labels_years[chartsData.labels_years.length - 1].slice(-4)
                   }}
                 </div>
               </CCol>
@@ -45,7 +50,7 @@
             </CRow>
             <CRow class="justify-content-end" v-if="chartsLoader === true
             && $store.getters[nameComponent.nameGetter].length !== 0 && Object.keys(defaultData).length !== 0">
-              <CCol xs="12" sm="12" md="12" lg="4" xl="3" xxl="2">
+              <CCol xs="12" sm="12" md="12" lg="4" xl="3" xxl="3">
                 <label class="form-label" for="default">по умолчанию</label>
                 <CInputGroup class="flex-nowrap justify-content-start">
                   <CInputGroupText>
@@ -59,7 +64,7 @@
                   <tooltip-info-content :content="'Количество последних записей статистики'"></tooltip-info-content>
                 </CInputGroup>
               </CCol>
-              <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="2">
+              <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="3">
                 <label class="form-label" for="limit">месяц</label>
                 <CInputGroup class="flex-nowrap justify-content-start">
                   <CInputGroupText>
@@ -73,7 +78,7 @@
                   <tooltip-info-content :content="'Статистика за месяц'"></tooltip-info-content>
                 </CInputGroup>
               </CCol>
-              <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="2">
+              <CCol xs="12" sm="6" md="6" lg="4" xl="3" xxl="3">
                 <label class="form-label" for="limit">год</label>
                 <CInputGroup class="flex-nowrap justify-content-start">
                   <CInputGroupText>
@@ -123,6 +128,7 @@ export default {
   data() {
     return {
       defaultData: {},
+      labels_years: {},
       loading: 0,
 
       selectedData: String('50'),
@@ -130,7 +136,7 @@ export default {
           ? String(0) +  String(new Date().getUTCMonth() + 1) :  String(new Date().getUTCMonth() + 1),
       selectedYear: String(new Date().getFullYear()),
 
-      getStatisticUserId: null
+      getStatisticUserId: String('')
     }
   },
   computed: {
@@ -147,7 +153,7 @@ export default {
       })
     },
     getArrayYears() {
-      const startFrom = new Date('2020');
+      const startFrom = new Date('2022');
       const today = new Date();
       const years = []
       do {
@@ -213,13 +219,31 @@ export default {
         this.updateChartsSelect('year',
             this.nameComponent.name, this.nameComponent.nameGetter, this.nameComponent.nameLabel,  this.selectedData, this.selectedMonth, this.selectedYear)
       }
-    },
+    }
   },
   watch: {
     chartsData(to, from) {
+
       if (to !== from) {
+        let mini_labels = [];
+        if (to.labels_years !== undefined && to.labels_years.length > 0) {
+          to.labels_years.forEach((e, i) => {
+            let date_plus_year;
+            if (!/^(?=[^0]{2})/.test(to.labels_years[i].substring(0,4))) {
+              date_plus_year = to.labels[i].substring(0,5) + '.' + to.labels_years[i].substring(2,4)
+            } else {
+              date_plus_year = to.labels[i].substring(0,5) + '.' + to.labels_years[i].substring(0,4)
+            }
+            if (!/^(?=[^0]{9})/.test(to.labels_years[i].slice(-4))) {
+              date_plus_year += ' - ' + to.labels[i].slice(-5) + '.' + to.labels_years[i].slice(-2)
+            } else {
+              date_plus_year += ' - ' + to.labels[i].slice(-5) + '.' + to.labels_years[i].slice(-4)
+            }
+            mini_labels[i] = date_plus_year
+          });
+        }
         this.defaultData = {
-          labels: to.labels,
+          labels: mini_labels,
           datasets: [
             {
               label: to.label,
@@ -230,6 +254,9 @@ export default {
               data: to.value
             },
           ]
+        }
+        this.labels_years = {
+          labels_years: to.labels_years
         }
         this.loading += 1
       }

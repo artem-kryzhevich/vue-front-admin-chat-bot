@@ -24,10 +24,10 @@ export default {
                     if (error.response && error.response.status === 422) {
                         router.back()
                     }
-                    console.log(error);
+                    //console.log(error);
                 });
-            } else
-                console.log(ctx)
+            } //else
+                //console.log(ctx)
         },
     },
     getters: {

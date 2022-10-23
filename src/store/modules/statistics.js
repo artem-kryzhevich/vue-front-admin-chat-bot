@@ -21,11 +21,11 @@ export default {
                             return Promise.resolve(response);
                         }
                     }).catch((error) => {
-                        console.log(error);
+                        //console.log(error);
                         return Promise.reject(error);
                     });
-            } else
-                console.log(ctx)
+            } //else
+                //console.log(ctx)
         }
     },
     getters: {

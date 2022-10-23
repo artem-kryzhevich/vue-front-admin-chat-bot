@@ -13,7 +13,9 @@ export default {
                     this.chartsLoader[nameData] = true
                 },
                 (error) => {
-                    this.$store.commit('updateModalRequest', {data: 'error', text: 'Ошибка! Обновите блок - ' + label})
+                    if (error.response && (error.response.status !== 403 || error.response.status !== 401)) {
+                        this.$store.commit('updateModalRequest', {data: 'error', text: 'Ошибка! Обновите блок - ' + label})
+                    }
                     if (error.response && error.response.status === 403) {
                         EventBus.dispatch("logout");
                     }
@@ -29,9 +31,16 @@ export default {
                         return start + " - " + end
                     }
                 )
+                let labels_years = array.map((item) => {
+                        let start = this.$moment(item.start_date).format('YYYY')
+                        let end = this.$moment(item.end_date).format('YYYY')
+                        return start + " - " + end
+                    }
+                )
                 let value = array.map(item => item.value)
                 this[name] = {
                     labels: labels,
+                    labels_years: labels_years,
                     value: value,
                     label: lab
                 }
@@ -48,9 +57,16 @@ export default {
                         return start + " - " + end
                     }
                 )
+                let labels_years = array.map((item) => {
+                        let start = this.$moment(item.start_date).format('YYYY')
+                        let end = this.$moment(item.end_date).format('YYYY')
+                        return start + " - " + end
+                    }
+                )
                 let value = array.map(item => item.value)
                 this[nameData] = {
                     labels: labels,
+                    labels_years: labels_years,
                     value: value,
                     label: nameLabel
                 }

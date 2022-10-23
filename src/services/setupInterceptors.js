@@ -25,7 +25,7 @@ const setup = (store) => {
                 // Access Token was expired
                 if (err.response.status === 401 && !originalConfig._retry) {
                     originalConfig._retry = true;
-                    console.log(err)
+                    //console.log(err)
                     if (err.response && err.response.status === 401
                         && err.response.data.detail === "Refresh token expired"
                         && err.response.request.responseURL === process.env.VUE_APP_BACKEND_URL+"/refresh_token") {

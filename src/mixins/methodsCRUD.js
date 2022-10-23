@@ -195,7 +195,6 @@ export function booleanUniquePaymentHistoryUser(user = true, unique = this.state
     /** Для Payments History **/
     if (router.currentRoute.value.path.replace(/^([^\/]*\/[^\/]*\/).*$/, '$1')
             .replace(/(\/*$)/, "") === '/payments-history') {
-        console.log(user)
         unique.isUniqueUser = user
     }
     /** ******************** **/

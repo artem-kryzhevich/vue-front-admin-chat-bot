@@ -157,7 +157,7 @@ export default {
       this.updateSearchOptions(event, name)
     },
     updateSearchOptionsBT(event, name, direction, value = [], test = 1) {
-        console.log(this.sortDataObj[name].val)
+        //console.log(this.sortDataObj[name].val)
         if (direction === 'left') {
           let right = this.sortDataObj[name].val[1]
           if (right !== undefined && right !== null && right !== '' && right <= Number(event))
@@ -165,7 +165,7 @@ export default {
           else
             test = right
           value = [Number(event), Number(test)];
-          console.log(value)
+          //console.log(value)
         }
         if (direction === 'right') {
           let left = this.sortDataObj[name].val[0]
@@ -174,7 +174,7 @@ export default {
           else
             test = left
           value = [Number(test), Number(event)];
-          console.log(value)
+          //console.log(value)
         }
         this.sortDataObj[name].val = value
         this.updateSearchOptions(value, name, null,'bt')

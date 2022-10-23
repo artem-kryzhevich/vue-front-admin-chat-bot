@@ -17,10 +17,10 @@ export default {
                     if (error.response && error.response.status === 403) {
                         EventBus.dispatch("logout");
                     }
-                    console.log(error);
+                    //console.log(error);
                 });
-            } else
-                console.log(ctx)
+            } //else
+                //console.log(ctx)
         }
     },
     getters: {

@@ -22,6 +22,6 @@ function telegramLoadedCallbackFunc () {
 }
 
 function yourCallbackFunction (user) {
-  console.log(user)
+  //console.log(user)
 }
 </script>

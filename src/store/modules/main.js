@@ -41,10 +41,10 @@ export default {
                     if (error.response && error.response.status === 403) {
                         EventBus.dispatch("logout");
                     }
-                    console.log(error);
+                    //console.log(error);
                 });
-            } else
-                console.log(ctx)
+            } //else
+                //console.log(ctx)
         },
         async addData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
@@ -54,11 +54,11 @@ export default {
                         return Promise.resolve(response);
                     }
                 }).catch( (error) => {
-                    console.log(error);
+                    //console.log(error);
                     return Promise.reject(error);
                 });
-            } else
-                console.log(data)
+            } //else
+                //console.log(data)
         },
         async editingData(ctx, data) {
             if (!!process.env.VUE_APP_DEBUG) {
@@ -69,12 +69,12 @@ export default {
                             return Promise.resolve(response);
                         }
                     }).catch( (error) => {
-                        console.log(error);
+                        //console.log(error);
                         return Promise.reject(error);
                     });
             }
-            else
-                console.log(data)
+            //else
+                //console.log(data)
         },
         async deleteData(ctx, id) {
             if (!!process.env.VUE_APP_DEBUG) {
@@ -85,12 +85,12 @@ export default {
                             return Promise.resolve(response);
                         }
                     }).catch( (error) => {
-                        console.log(error);
+                        //console.log(error);
                         return Promise.reject(error);
                     });
             }
-            else
-                console.log(id)
+            //else
+                //console.log(id)
         },
     },
     getters: {
