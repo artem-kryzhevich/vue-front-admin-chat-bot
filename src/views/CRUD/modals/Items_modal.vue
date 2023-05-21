@@ -31,7 +31,7 @@
         </CInputGroup>
       </CCol>
       <CCol xs="12">
-        <CFormLabel for="price">Цена (руб.)</CFormLabel>
+        <CFormLabel for="price">Цена (RUB)</CFormLabel>
         <CInputGroup class="has-validation">
           <tooltip-info-content :content="'Тип: Integer'"></tooltip-info-content>
           <CFormInput id="price" aria-describedby="inputGroupPrepend" required
@@ -40,6 +40,18 @@
                       @input="validateInput('price')"
                       :valid="validOrInvalidInput('price', true)"
                       :invalid="validOrInvalidInput('price', false)"/>
+        </CInputGroup>
+      </CCol>
+      <CCol xs="12">
+        <CFormLabel for="price_usd">Цена (USD)</CFormLabel>
+        <CInputGroup class="has-validation">
+          <tooltip-info-content :content="'Тип: Integer'"></tooltip-info-content>
+          <CFormInput id="price_usd" aria-describedby="inputGroupPrepend" required
+                      v-model="state.price_usd" placeholder="price_usd"
+                      :feedbackInvalid="feedbackInvalidInput('price_usd')"
+                      @input="validateInput('price_usd')"
+                      :valid="validOrInvalidInput('price_usd', true)"
+                      :invalid="validOrInvalidInput('price_usd', false)"/>
         </CInputGroup>
       </CCol>
       <CCol xs="12">

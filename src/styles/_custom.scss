@@ -9,20 +9,15 @@ th.col {
   display: block;
   position: relative;
 }
-th.sorted[data-sorting-direction="1"], th.sorted[data-sorting-direction="-1"] {
-  padding-right: 15px;
-}
-th.sorted[data-sorting-direction="-1"]::after {
-  content: "\25be";
+th[data-sorting-direction="1"] svg, th[data-sorting-direction="-1"] svg {
+  display: none;
 }
 
-th.sorted[data-sorting-direction="1"]::after {
-  content: "\25b4";
-}
-
-th.sorted[data-sorting-direction="1"]::after, th.sorted[data-sorting-direction="-1"]::after {
-  margin-right: -15px;
-  float: right;
+th.sorted[data-sorting-direction="1"] svg, th.sorted[data-sorting-direction="-1"] svg {
+  display: flex;
+  align-self: flex-end;
+  flex: 0 0 auto;
+  margin-bottom: 5px;
 }
 
 table.table-fixed {

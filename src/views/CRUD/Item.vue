@@ -63,7 +63,7 @@
         </CInputGroup>
       </CTableRow>
       <CTableRow>
-        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена (руб.)</CTableHeaderCell>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена (RUB)</CTableHeaderCell>
         <CTableDataCell v-if="!flagEdit">{{ getSection.price }}
         </CTableDataCell>
         <CInputGroup class="has-validation" v-if="flagEdit">
@@ -73,6 +73,19 @@
                       @input="validateInput('price')"
                       :valid="validOrInvalidInput('price', true)"
                       :invalid="validOrInvalidInput('price', false)"/>
+        </CInputGroup>
+      </CTableRow>
+      <CTableRow>
+        <CTableHeaderCell scope="row" v-bind:style="'width: 250px'">Цена (USD)</CTableHeaderCell>
+        <CTableDataCell v-if="!flagEdit">{{ getSection.price_usd }}
+        </CTableDataCell>
+        <CInputGroup class="has-validation" v-if="flagEdit">
+          <CFormInput id="price_usd" value="" aria-describedby="inputGroupPrepend" required
+                      v-model="state.price_usd" placeholder="price_usd"
+                      :feedbackInvalid="feedbackInvalidInput('price_usd')"
+                      @input="validateInput('price_usd')"
+                      :valid="validOrInvalidInput('price_usd', true)"
+                      :invalid="validOrInvalidInput('price_usd', false)"/>
         </CInputGroup>
       </CTableRow>
       <CTableRow>

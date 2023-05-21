@@ -30,32 +30,62 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">ID
+                          @click="passingASortingParameter('id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            ID
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'first_name' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('first_name')">Имя
+                          @click="passingASortingParameter('first_name')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Имя
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'second_name' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('second_name')">Фамилия
+                          @click="passingASortingParameter('second_name')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Фамилия
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'phone_number' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('phone_number')">Номер телефона
+                          @click="passingASortingParameter('phone_number')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Номер телефона
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'tg_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('tg_id')">Telegram ID
+                          @click="passingASortingParameter('tg_id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Telegram ID
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'role_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('role_id')">Роль
+                          @click="passingASortingParameter('role_id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Роль
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>

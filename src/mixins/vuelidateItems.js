@@ -10,6 +10,7 @@ export const state = reactive({
     "title": null,
     "slug": null,
     "price": null,
+    "price_usd": null,
     "description": null,
     "duration": null,
     "can_buy_muliple_times": null
@@ -25,6 +26,10 @@ export const rules = computed(() => {
             maxLength: helpers.withMessage(({ $params }) => `Поле не может быть больше ${$params.max} символов`, maxLength(100))
         },
         price: {
+            required: helpers.withMessage(customMessages.required, required),
+            numeric: helpers.withMessage(customMessages.numeric, numeric),
+        },
+        price_usd: {
             required: helpers.withMessage(customMessages.required, required),
             numeric: helpers.withMessage(customMessages.numeric, numeric),
         },

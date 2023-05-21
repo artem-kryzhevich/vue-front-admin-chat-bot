@@ -27,6 +27,7 @@ export function setValidDataItems(state, flag = false) {
     data.title = String(state.title)
     data.slug =  String(state.slug)
     data.price = Number(state.price)
+    data.price_usd = Number(state.price_usd)
     data.description = state.description === null || state.description === "" ? null : String(state.description)
     data.duration = Number(state.duration)
     data.can_buy_muliple_times = Boolean(state.can_buy_muliple_times)

@@ -27,24 +27,44 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">ID
+                          @click="passingASortingParameter('id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            ID
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'item_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('item_id')">ID Товара
+                          @click="passingASortingParameter('item_id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            ID Товара
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Название Товара</CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'user_id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('user_id')">ID Пользователя
+                          @click="passingASortingParameter('user_id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            ID Пользователя
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">ФИО Пользователя</CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'expiration_date' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('expiration_date')">Дата окончания
+                          @click="passingASortingParameter('expiration_date')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Дата окончания
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>

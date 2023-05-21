@@ -27,37 +27,82 @@
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'id' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('id')">ID
+                          @click="passingASortingParameter('id')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            ID
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'title' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('title')">Название
+                          @click="passingASortingParameter('title')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Название
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'slug' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('slug')">Кодовое слово
+                          @click="passingASortingParameter('slug')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Кодовое слово
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'price' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('price')">Цена (руб.)
+                          @click="passingASortingParameter('price')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Цена (RUB)
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
+        </CTableHeaderCell>
+        <CTableHeaderCell scope="col"
+                          v-bind:class="getPropertySorted === 'price_usd' ? 'sorted' : ''"
+                          v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
+                          @click="passingASortingParameter('price_usd')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Цена (USD)
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'description' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('description')">Описание
+                          @click="passingASortingParameter('description')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Описание
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'duration' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('duration')">Период
+                          @click="passingASortingParameter('duration')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Период
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col"
                           v-bind:class="getPropertySorted === 'can_buy_muliple_times' ? 'sorted' : ''"
                           v-bind:data-sorting-direction="getFlagSorted ? 1 : -1"
-                          @click="passingASortingParameter('can_buy_muliple_times')">Многоразовая покупка
+                          @click="passingASortingParameter('can_buy_muliple_times')">
+                          <p class="d-flex m-0 justify-content-between align-items-center">
+                            Многоразовая покупка
+                            <CIcon v-if="!getFlagSorted" icon="cilCaretBottom" size="custom-size" :height="12"/>
+                            <CIcon v-else icon="cilCaretTop" size="custom-size" :height="12"/>
+                          </p>
         </CTableHeaderCell>
         <CTableHeaderCell scope="col">Действия</CTableHeaderCell>
       </CTableRow>
@@ -68,6 +113,7 @@
         <CTableDataCell class="text-one-line">{{ data.title }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.slug }}</CTableDataCell>
         <CTableDataCell class="text-one-line">{{ data.price }}</CTableDataCell>
+        <CTableDataCell class="text-one-line">{{ data.price_usd }}</CTableDataCell>
         <CTableDataCell class="text-one-line" :style="!data.description ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'">
           {{ data.description ? data.description : 'Не заданно' }}</CTableDataCell>
         <CTableDataCell class="text-one-line" :style="!data.duration ? 'color:var(--cui-gray-500)' : 'color:var(--cui-body-color)'">

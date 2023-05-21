@@ -112,7 +112,7 @@ export default {
         if (this.keysData.length > 0) {
           this.keysData.filter((f) => {
             if (f === 'id' || f === 'tg_id' || f === 'role_id' || f === 'is_visible' || f === 'item_id' || f === 'user_id'
-                || f === 'expiration_date' || f === 'can_buy_muliple_times' || f === 'duration' || f === 'price') {
+                || f === 'expiration_date' || f === 'can_buy_muliple_times' || f === 'duration' || f === 'price' || f === 'price_usd') {
               if (f === 'expiration_date') {
                 obj[f] = {
                   arrayParam: ['$eq', '$neq', '$gt', '$gte', '$lt', '$lte', '$bt'],
